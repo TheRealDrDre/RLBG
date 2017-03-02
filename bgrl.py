@@ -365,7 +365,7 @@ class RL_Agent(PSS_Agent):
         strength"""
         
         if method is "simple":
-            ap = 1
+            ap = 0
         else:
             ap = a_t1[1]
             
