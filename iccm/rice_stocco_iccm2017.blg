@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: rice_stocco_iccm2017.aux
+The style file: apacite.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Database file #1: CogSci_Template.bib
+apacite.bst [2009/03/01 v4.05 APA bibliography style]
+You've used 7 entries,
+            6361 wiz_defined-function locations,
+            1231 strings with 10833 characters,
+and the built_in function-call counts, 12201 in all, are:
+= -- 1612
+> -- 108
+< -- 468
++ -- 487
+- -- 14
+* -- 696
+:= -- 2080
+add.period$ -- 33
+call.type$ -- 7
+change.case$ -- 38
+chr.to.int$ -- 0
+cite$ -- 14
+duplicate$ -- 302
+empty$ -- 512
+format.name$ -- 144
+if$ -- 2462
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 0
+newline$ -- 166
+num.names$ -- 59
+pop$ -- 280
+preamble$ -- 1
+purify$ -- 28
+quote$ -- 0
+skip$ -- 866
+stack$ -- 0
+substring$ -- 602
+swap$ -- 176
+text.length$ -- 35
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 752
+warning$ -- 0
+while$ -- 49
+width$ -- 0
+write$ -- 195
