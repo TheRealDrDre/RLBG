@@ -23,6 +23,7 @@
 \usepackage{cogsci}
 \usepackage{pslatex}
 \usepackage{apacite}
+\usepackage{graphicx}
 
 
 \title{Basal ganglia-inspired functional constrains improve the robustness of $Q$-value estimates in model-free reinforcement learning}
@@ -72,19 +73,42 @@ sum of the estimated value of the reward of all future steps (beginning from the
 some learning rate alpha. These estimated state values can then be directly used to implement a policy to 
 select actions on the basis of those that lead to states that are estimated to return the greatest value over time.
 
-THE MODEL AS WRITTEN IS ACTUALLY A SARSA MODEL – CHANGE THE FOLLOWING PARAGRAPH?
+% THE MODEL AS WRITTEN IS ACTUALLY A SARSA MODEL – CHANGE THE FOLLOWING 
+% PARAGRAPH? 
+% [AS] Nope, since it does not matter how the model is written---In PSS, the second action does not matter, so Q(a_t2) can be considered zero.
 
 The ideas behind TD methods have since been expanded, including a proposal by Watson (1989) that defined a TD control algorithm now known as Q-learning. Q-learning is an off-policy method that allows the agent to choose to take non-optimal actions while still estimating an optimal value function. In comparison to the TD method described above, Q-learning carries two essential differences: 1. the method considers the value of state-action (SA) pairs, rather than the value of states alone (however, the two formalisms are equivalent (Sutton and Barto, 1998)); and 2. for each time-step, the learned action-value function is updated (in part) by the estimated value of the best action available, rather than the actual action taken. By updating based on the best action available while allowing the agent to make inferior choices, this procedure increases the rate of learning in the face of a suboptimal action selection process.
 
-Both TD learning and Q-learning have been shown to converge to the optimal value function with probability 1 (CITE THIS). As such, methods of this class provide BLAH
+Both TD learning and Q-learning have been shown to converge to the optimal value function with probability 1 (CITE THIS). 
 
-However, in some circumstances, these model-free RL methods produce bizarre (suboptimal? Unintended? Incomplete?) results. As defined, these methods emphasize learning of rewarding actions – updating the value of a state/SA pair increases the likelihood that the agent will choose the action that leads to that state/SA pair when it is next given the opportunity to do so. As a result, even though it converges to an optimal value function, an agent still does not have complete knowledge of its environment – namely, it does not know much (if anything) about suboptimal states/SA pairs.[DISCUSS EXPLORATION PROBLEMS HERE?]. This is not an issue while the agent has full access to its actions, but what if learned “good” (i.e. optimal) states/SA pairs are blocked from the agent? In this case, the agent cannot take the actions it usually would by following its policy and value function, and as a consequence, cannot act optimally within the “new” environment. In essence, the agent has no knowledge of how to navigate bad options – how to choose the “least bad”, when forced to.
+% This is where the juice happens.
 
-A situation in which this circumstance arises is when modeling a classical psychology task paradigm, the Probabilistic Stimulus Selection (PSS) task. The PSS task is a repetitive, two-alternative forced-choice task made up of two consecutive phases – a training phase in which a participant repeatedly makes choices between fixed pairs of stimuli, and a test phase where the participant is presented with new combinations of options. Across both phases, there are six possible stimuli, implemented as symbols that are difficult to describe (in order to make memorization of each stimulus’ history of success more difficult). Each stimulus carries an intrinsic probability of success, ranging linearly from 20\% to 80\%. During the training phase, the stimuli are presented a fixed pairs, for a total of three sets: [[20 80], [30 70], [40 60]], and participants receive feedback regarding the outcome of their decision directly after making a selection. Participants are instructed to attempt to maximize their success by choosing what they believe to be the “correct” option on each trial. Once a participant’s performance reaches a predefined criterion (or they have completed a maximum of six training blocks), the test phase begins. During the test phase, participants are shown all possible combinations of the six stimuli(fifteen total, four times each, for a total of 60 trials), and do not receive feedback upon selection. From the test phase, two different measures are calculated: the participant’s Choose accuracy, (the probability of choosing the higher valued alternative (80, 70, or 60 – hereafter referred to as A, C, and E, respectively) of any given fixed set from the training session, when it is paired with any other alternative), and the participant’s Avoid accuracy (the probability of choosing the lower valued alternative (20, 30, 40 – hereafter referred to as B, D, and F, respectively) of any given fixed set from the training session, when it is paired with any other alternative). These measures can generally be interpreted to be the participant’s tendencies to pursue reward and avoid punishment, respectively.
+However, in some circumstances, these model-free RL methods 
+produce bizarre suboptimal results. As defined, these methods emphasize learning of rewarding actions--updating the value of a state/action
+pair increases the likelihood that the agent will choose the same action in the same state again. 
 
-BRIEF PARAGRAPH ON HOW HUMANS DO AT THE PSS TASK? WOULD BE NICE TO COMPARE MODEL RESULTS TO
+As a result, even though it converges to an optimal value function, an agent still does not have complete knowledge of its environment---namely, it does not know much (if anything) about those actions that were discarded early as suboptimal. 
 
-When the participant in the PSS task is modeled as a Q-learning agent that employs either an epsilon-greedy (in which the agent selects the optimal action with probability P = 1 – epsilon, and selects an action at random with probability P = epsilon) or a policy based on Gibb’s function 
+Note that this is not an issue while the agent has full access to its actions, but what if learned "good" (i.e. optimal) actions pairs become suddenly unavailable? In this case, the agent cannot take the actions it usually would by following its policy and value function, and as a consequence, cannot act optimally within the "new" environment. In essence, the agent has no knowledge of how to navigate bad options--how to choose the "least bad", when forced to.
+
+\subsection{The PSS Task}
+
+\begin{figure*}[ht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{pss.png}
+	\end{center}
+	\caption{The PSS task} 
+	\label{pss}
+\end{figure*}
+
+A situation in which this circumstance arises is when modeling a classical psychology task paradigm, the Probabilistic Stimulus Selection (PSS) task. The PSS task is a repetitive, two-alternative forced-choice task made up of two consecutive phases--a training phase in which a participant repeatedly makes choices between fixed pairs of stimuli, and a test phase where the participant is presented with new combinations of options. Across both phases, there are six possible stimuli, implemented as symbols that are difficult to describe (in order to make memorization of each stimulus’ history of success more difficult). Each stimulus carries an intrinsic probability of success, ranging linearly from 20\% to 80\%.
+
+During the training phase, the stimuli are presented a fixed pairs, for a total of three sets (as in Figure \ref{pss}), and participants receive feedback regarding the outcome of their decision directly after making a selection. Participants are instructed to attempt to maximize their success by choosing what they believe to be the "correct" option on each trial. Once a participant’s performance reaches a predefined criterion (or they have completed a maximum of six training blocks), the test phase begins. During the test phase, participants are shown all possible combinations of the six stimuli(fifteen total, four times each, for a total of 60 trials), and do not receive feedback upon selection. From the test phase, two different measures are calculated: the participant’s Choose accuracy, (the probability of choosing the higher valued alternative (80, 70, or 60 – hereafter referred to as A, C, and E, respectively) of any given fixed set from the training session, when it is paired with any other alternative), and the participant’s Avoid accuracy (the probability of choosing the lower valued alternative (20, 30, 40 – hereafter referred to as B, D, and F, respectively) of any given fixed set from the training session, when it is paired with any other alternative). These measures can generally be interpreted to be the participant’s tendencies to pursue reward and avoid punishment, respectively.
+
+%BRIEF PARAGRAPH ON HOW HUMANS DO AT THE PSS TASK? WOULD BE NICE TO %COMPARE MODEL RESULTS TO 
+% We have millions of data.
+
+When the participant in the PSS task is modeled as a Q-learning agent that employs either an epsilon-greedy (in which the agent selects the optimal action with probability $P = 1 - \epsilon$, and selects an action at random with probability $P = \epsilon$) or a policy based on Gibb’s function 
 
 	EQN HERE
 	
@@ -96,9 +120,21 @@ This pattern of Choose and Avoid accuracies over the range of epsilon/T values t
 	
 Another way in which this apparent accuracy/bias trade-off can be demonstrated is by defining the model so that it learns the value of NOT choosing actions, rather than the value of choosing actions. In other words, the model chooses to “not choose” a given option, learning the value of such in the process. In this case, as the value of epsilon/T decreases, Avoid accuracy increases while Choose accuracy exhibits the inflection behavior seen in Avoid accuracy under the original model (Figure 2?). Now, the model has learned how to navigate amongst “bad” options - it knows the value of not choosing a given option, and so it “doesn’t choose” the “bad” options more often as epsilon/T  decreases – however, it does not learn about the value of “good” options during the learning process.
 
+\subsection{A Basal Ganglia-Inspired RL Method}
+
 How can we address this bizarre behavior? Although the model does fairly well overall (approximately 77\%), its performance does not match that of human participants, especially when considering Avoid accuracy. As the model’s results demonstrate, it can learn well about one set of options (either the “good” options or the “bad” options, depending on if it is learning what to choose or what to not choose, respectively), but it does not do well at valuing all options appropriately at any value of epsilon/T. A simple solution would be to run the model through the training session twice, one to learn what to choose, and another time to learn what not to choose. However, this is inefficient for a number of reasons. EXPAND REASONS IF WE CHOOSE TO KEEP THIS. Ideally, the model could instead learn the values of choosing an option and not choosing the alternative simultaneously, allowing it to train once in order to appropriately value all possible options. 
 
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=3.5in]{basal-ganglia.png}
+	\end{center}
+	\caption{The basal ganglia} 
+	\label{pss}
+\end{figure}
+
 What would a model that does this look like? In order to begin forming an idea, inspiration can be found in natural phenomena that are modeled well, but incompletely, by model-free RL methods. One prevalent example of such is the basal ganglia (BG) system, a network of subcortical nuclei including the striatum, globus pallidus, substania nigra, and subthalamic nucleus (CITE ME!). Along with the cerebral cortex, thalamus, and brainstem, these structures form segregated, parallelized loop circuits (including motor, cognitive, and limbic circuits) in humans and other vertebrates. The striatum receives input from cortical structures, and subsequently propagates the signal to later nuclei of the BG through two distinct pathways, termed the “direct” and “indirect” pathways. ADD SENTENCE OR TWO ABOUT WHAT THESE PATHWAYS ARE SUPPOSED TO DO These loop circuits have been implicated to be involved in eye movements, motivation, decision making, working memory, and most notably, action selection (ANDREA: THE FLESH OF MY FINGERS BURNED AS I WROTE THAT)(CITE ME!). 
+
+
 	
 Of particular interest to neurological/psychological research is the fact that the striatum receives strong dopaminergic (dopamine; DA) input from the substantia nigra pars compacta (SNc). Dopaminergic signaling originating from the SNc has long been thought to reflect a neural “reward” signal associated with internally-generated action and external stimuli (CITE ME! WRITE MORE ABOUT ME?) that the organism has learned is, or expects to be, rewarding in some manner. Additionally, dopaminergic input defines the “direct” and “indirect” pathways mentioned above – striatial neurons that express D1 receptors (for which DA is an excitatory ligand) form the origin of the direct pathway, while those that express D2 receptors (for which DA is an inhibitory ligand) form the origin of the indirect pathway.
 
