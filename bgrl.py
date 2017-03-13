@@ -265,12 +265,15 @@ class PSS_Agent(PSS_Object):
     def run(self, task):
         """Runs with a PSS task object until the task is over (state == None)""" 
         while (task.state is not None):
+            method = self.method
             s_t1 = task.state
             a_t1 = self.policy(s_t1)
-            s_t2, r_t2 = task.execute_action(a_t1)
-            if (r_t2 is not None):
+            s_t2, r_t2 = task.execute_action(a_t1[0])
+            if (r_t2 is not None and len(a_t1) is 1): #would prefer "and self.policy is not RL_Agent.actor", but don't know how to check bound methods
                 # Only learns if a reward signal has been given
                 self.learn(s_t1, a_t1, r_t2)
+            elif (r_t2 is not None):
+                self.criticize(s_t1, a_t1, r_t2, method)
     
     def epsilon_greedy_policy(self, state):
         """The e-greedy policy"""
@@ -299,6 +302,24 @@ class PSS_Agent(PSS_Object):
         j = random.random()
         above_set = [x for x in pactions if x[1] > j]
         return above_set[0][0]
+    
+    def actor(self,state):
+        """A noisy actor (policy) for an actor-critic model
+            Returns action and probability of pick as tuple"""
+        as_actions = self.id_ass_strs(state)
+        actions = as_actions.keys()
+        ass_strs = [as_actions[x] for x in actions]
+        total = sum([math.exp(x) for x in ass_strs])
+        pvals = [math.exp(x)/total for x in ass_strs]
+        cumulative = [sum(pvals[0:i]) for i in range(1, len(pvals)+1)]
+        pactions = zip(actions,cumulative)
+        j = random.random()
+        above_set = [x for x in pactions if x[1] > j]
+        if len(above_set) is 2:
+            return above_set[0]
+        else:
+            return (above_set[0][0], pvals[1])
+    
        
     
 class RL_Agent(PSS_Agent):
@@ -310,12 +331,21 @@ class RL_Agent(PSS_Agent):
         self.temperature = temperature
         self.Q = dict(zip([(PSS_State, x) for x in self.ACTIONS], 
                           [0.0] * len(self.ACTIONS)))
+        self.ass_str = dict(zip([(PSS_State, x) for x in self.ACTIONS], 
+                          [0.0] * len(self.ACTIONS)))
         self.policy = self.epsilon_greedy_policy
+        self.method = "simple"
     
     
     def identify_actions(self, state):
         """Returns a list of plausible actions and their Q-values"""
         possible = [(x[1], self.Q[x]) for x in self.Q if x[1] in state.options]
+        return dict(possible)
+    
+    
+    def id_ass_strs(self,state):
+        """Returns a list of plausible actions and their association strengths"""
+        possible = [(x[1], self.ass_str[x]) for x in self.ass_str if x[1] in state.options]
         return dict(possible)
     
     
@@ -327,6 +357,46 @@ class RL_Agent(PSS_Agent):
             self.Q[(state, a_t1)] = r_t2
         else:             
             self.Q[(state, a_t1)] = q_t1 + self.alpha * (r_t2 - q_t1)
+            
+            
+    def criticize(self, s_t1, a_t1, r_t2, method):
+        """Assuming every state is independent, d_t = R_t - Q_(t-1)
+        Defaults to using the simple method of updating association
+        strength"""
+        
+        if method is "simple":
+            ap = 0
+        else:
+            ap = a_t1[1]
+            
+        state = PSS_State
+        q_t1 = self.Q.get((state, a_t1[0]), None)
+        as_t1 = self.ass_str.get((state, a_t1[0]), None) 
+        
+        #Use this to update the policy as well as the value function
+        dq = r_t2 - q_t1
+        
+        if q_t1 is None:             
+            self.Q[(state, a_t1[0])] = r_t2
+        else:             
+            self.Q[(state, a_t1[0])] = q_t1 + self.alpha*dq
+            
+        #can this be condensed into the if statement above? I'm assuming the if
+        #statement checks if it is the first  "trial", and just inputs the
+        #reward. If so, it can be condensed.
+        
+        #if ap is 1, it is the simple solution - using dq as an error term for 
+        #the associative strength            
+        #if ap is the actual probability of the action (returned by 
+        #RL_Agent.actor(state) this solution uses dq as a signal to convey how 
+        #much learning is needed
+        #(how much the policy should be adapted?)
+        if as_t1 is None:
+            self.ass_str[(state, a_t1)] = 0
+        else:
+            self.ass_str[(state, a_t1)] = as_t1 + (self.alpha*dq)*(1-ap)
+
+
             
         
 ## ---------------------------------------------------------------- ##
