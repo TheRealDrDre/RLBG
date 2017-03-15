@@ -30,10 +30,10 @@
  
 \author{{\large \bf Patrick J. Rice (pjrice@uw.edu)} \\
   Department of Psychology, University of Washington \\
-  Seattle, WA 98195 USA
+  Campus Box 351525, Seattle, WA 98195 USA
   \AND {\large \bf Andrea Stocco (stocco@uw.edu)} \\
   Department of Psychology, University of Washington \\
-  Seattle, WA 98195 USA}
+  Campus Box 351525, Seattle, WA 98195 USA}
 
 
 \begin{document}
@@ -54,9 +54,9 @@ Reinforcement learning; basal ganglia; dopamine; computational models
 
 Model-free reinforcement learning (RL) is a powerful approach for obtaining an optimal long-term action policy in the absence of transition probability and reinforcement functions. In other words, a model-free RL agent must interact with an unknown environment (i.e. sample the environment repeatedly through action) in order to construct an optimal control policy, based on the pattern of reward received by interaction with the environment. This framing of RL methods makes clear their power in modeling human and animal decision-making. Policies refined through RL mechanisms are oriented such that the agent’s (human/animal) actions consider both immediate and future reward, optimized to maximize some value over time. The key idea that enables an agent to determine an optimal policy within an unknown environment is that of temporal-difference (TD) learning (Sutton 1988). 
 
-The ideas behind TD methods have since been expanded, including a proposal by Watson (1989) that defined a TD control algorithm now known as $Q$-learning. $Q$-learning is an off-policy method that allows the agent to choose to take non-optimal actions while still estimating an optimal value function. By updating based on the best action available while allowing the agent to make inferior choices, this procedure increases the rate of learning in the face of a suboptimal action selection process. Both TD learning and Q-learning have been shown to converge to the optimal value function with probability 1 (Sutton and Barto, 2012).
+The ideas behind TD methods have since been expanded, including a proposal by Watson (1989) that defined a TD control algorithm now known as $Q$-learning. $Q$-learning is an off-policy method that allows the agent to choose to take non-optimal actions while still estimating an optimal value function. By updating based on the best action available while allowing the agent to make inferior choices, this procedure increases the rate of learning in the face of a suboptimal action selection process. Both TD learning and Q-learning have been shown to converge to the optimal value function with probability $P = 1$ (Sutton and Barto, 2012).
 
-However, in some circumstances, these model-free RL methods produce suboptimal results. As defined, these methods emphasize learning of rewarding actions – updating the value of a state/SA pair increases the likelihood that the agent will choose the action that leads to that state/SA pair when it is next given the opportunity to do so. As a result, even though it converges to an optimal value function, an agent still does not have complete knowledge of its environment – namely, it does not know much (if anything) about the least rewarding states/SA pairs. This is an instance of the general exploration-exploitation trade-off that many models encounter. Lacking knowledge of the least rewarding alternatives is not an issue while the agent has full access to its actions, but what if learned ``good'' (i.e. optimal) states/SA pairs are blocked from the agent? In this case, the agent cannot take the actions it usually would by following its policy and value function, and as a consequence, cannot act optimally within the ``new'' environment. In essence, the agent has no knowledge of how to navigate bad options – how to choose the “least bad”, when forced to.
+However, in some circumstances, these model-free RL methods produce suboptimal results. As defined, these methods emphasize learning of rewarding actions – updating the value of a state/SA pair increases the likelihood that the agent will choose the action that leads to that state/SA pair when it is next given the opportunity to do so. As a result, even though it converges to an optimal value function, an agent still does not have complete knowledge of its environment – namely, it does not know much (if anything) about the least rewarding states/SA pairs. This is an instance of the general exploration-exploitation trade-off that many models encounter. Lacking knowledge of the least rewarding alternatives is not an issue while the agent has full access to its actions, but what if learned ``good'' (i.e. optimal) states/SA pairs are blocked from the agent? In this case, the agent cannot take the actions it usually would by following its policy and value function, and as a consequence, cannot act optimally within the ``new'' environment. In essence, the agent has no knowledge of how to navigate bad options – how to choose the ``least bad'', when forced to.
 
 \subsection{The Probabilistic Stimulus Selection Task}
 
@@ -68,14 +68,16 @@ However, in some circumstances, these model-free RL methods produce suboptimal r
 	\label{pss}
 \end{figure*}
 
-A situation in which this circumstance arises is when modeling a well-known psychology task paradigm, the Probabilistic Stimulus Selection (PSS) task (Frank, Seeberger, and O'Reilly, 2004). The PSS task is a repetitive, two-alternative forced-choice task made up of two consecutive phases – a training phase in which a participant repeatedly makes choices between fixed pairs of stimuli, and a test phase where the participant is presented with new combinations of options. Across both phases, there are six possible stimuli, implemented as symbols that are difficult to describe (in order to make memorization of each stimulus’ history of success more difficult). Each stimulus carries an intrinsic probability of success, ranging linearly from 20\% to 80\%. During the training phase, the stimuli are presented a fixed pairs, for a total of three sets: $(A, B)$  $(C,D)$, and $(E, F)$, with associated reward probabilities of $(80\%, 20\%)$, $(70\%, 30\%)$, $(60\%, 40\%)$, respectively. Participants receive feedback regarding the outcome of their decision directly after making a selection. Participants are instructed to attempt to maximize their success by choosing what they believe to be the “correct” option on each trial. Once a participant’s performance reached a predefined criterion (different for each pair: 65\%, 60\%, and 50\% probability of choosing the higher valued option for the sets of $(A, B)$  $(C,D)$, and $(E, F)$, respectively), the test phase begins. During the test phase, participants are shown all possible combinations of the six stimuli(fifteen total, four times each, for a total of 60 trials), and do not receive feedback upon selection. From the test phase, two different measures are calculated: the participant’s \emph{Choose accuracy}, (the probability of choosing the highest valued alternative (A; 80\% reward probability) of any given fixed set from the training session, when it is paired with any other alternative), and the participant’s \emph{Avoid accuracy} (the probability of not choosing the lowest valued alternative (B, 20\% reward probability) when it is paired with any other alternative (excepting A, as that is its conjugate pair). These measures can generally be interpreted to be the participant’s tendencies to pursue reward and avoid punishment, respectively.
+A situation in which this circumstance arises is when modeling a well-known psychology task paradigm, the Probabilistic Stimulus Selection (PSS) task (Frank, Seeberger, and O'Reilly, 2004). The PSS task is a repetitive, two-alternative forced-choice task made up of two consecutive phases, a \emph{training phase} in which a participant repeatedly makes choices between fixed pairs of stimuli, and a \emph{test phase} where the participant is presented with new combinations of options (see Figure \ref{pss}).
+
+Across both phases, there are six possible stimuli, implemented as symbols that are difficult to describe (in order to make memorization of each stimulus’ history of success more difficult). Each stimulus carries an intrinsic probability of success, ranging linearly from 20\% to 80\%. During the training phase, the stimuli are presented a fixed pairs, for a total of three sets: $(A, B)$  $(C,D)$, and $(E, F)$, with associated reward probabilities of $(80\%, 20\%)$, $(70\%, 30\%)$, $(60\%, 40\%)$, respectively. Participants receive feedback regarding the outcome of their decision directly after making a selection. Participants are instructed to attempt to maximize their success by choosing what they believe to be the ``correct'' option on each trial. Once a participant’s performance reached a predefined criterion (different for each pair: 65\%, 60\%, and 50\% probability of choosing the higher valued option for the sets of $(A, B)$  $(C,D)$, and $(E, F)$, respectively), the test phase begins. During the test phase, participants are shown all possible combinations of the six stimuli(fifteen total, four times each, for a total of 60 trials), and do not receive feedback upon selection. From the test phase, two different measures are calculated: the participant’s \emph{Choose accuracy}, (the probability of choosing the highest valued alternative (A; 80\% reward probability) of any given fixed set from the training session, when it is paired with any other alternative), and the participant’s \emph{Avoid accuracy} (the probability of not choosing the lowest valued alternative (B, 20\% reward probability) when it is paired with any other alternative (excepting A, as that is its conjugate pair). These measures can generally be interpreted to be the participant’s tendencies to pursue reward and avoid punishment, respectively.
 
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[width=3.5in]{rl-performance.png}
 	\end{center}
 	\caption{Performance of $Q$-learning model in the PSS task for various levels of temperature $T$} 
-	\label{pss}
+	\label{RL-agent-performance}
 \end{figure}
 
 Human participants perform close to criterion in the test phase, with an average of about 70\% accuracy in both Choose and Avoid (Frank et al., 2004; 2007; Stocco et al, in press).
@@ -92,19 +94,20 @@ P(a_i) = \frac{e^{\frac{Q(a_i)}{T}}}{\sum_{j} e^{\frac{Q(a_j)}{T}}}\\.
 
 (under which the probability of the agent choosing a given action increases proportionally with the action's value $Q(s,a)$, normalized by a constant $T$, defined as the \emph{temperature} of the system. Higher values of $T$ inject more noise into the action selection process, making selection less deterministic), some alarming results are observed. Specifically, the model learns the value of of the desirable options $A$, $C$, and $E$ well, reflected as an increasing Choose accuracy as $T$ decreases (Figure 1A,B). This is the expected behavior of the model--as exploration begins to suggest relatively ``better'' options, the model quickly switches to exploiting them, learning their true values well in the process \footnote{Although here we report the results obtained using Gibb's distribution, the same results have been replicated with another common policy that balances exploration and exploitation, the $\epsilon$-greedy policy}. 
 
-However, when the Avoid accuracy of the model is inspected, it becomes clear that the model has learned the value of some, but not all, options well. As the value of T begins decreasing, the Avoid accuracy of the model does begin increasing, as the Choose accuracy did (these increases in Avoid accuracy are commensurate with the increases in Choose  accuracy). However, the model’s Avoid accuracy actually begins decreasing (Figure 1A,B) as T continues to decrease. This indicates that for lower values of T, the model does not sufficiently explore the “bad” options (B, D, and F) during the training phase, and as a consequence, does not value them appropriately. For higher values of T, the model does explore both bad and good options approximately equally – however, it does not value neither good nor bad options appropriately. Additionally, the maximum Avoid accuracy achieved at the point of inflection (approximately 70\%) is much lower than the maximum Choose accuracy achieved by the model across the range of T values (which is when the value of T is at a minimum; approximately 93\%). 
+However, when the Avoid accuracy of the model is inspected, it becomes clear that the model has learned the value of some, but not all, options well. As the value of T begins decreasing, the Avoid accuracy of the model does begin increasing, as the Choose accuracy did (these increases in Avoid accuracy are commensurate with the increases in Choose  accuracy). However, the model’s Avoid accuracy actually begins decreasing (Figure 1A,B) as T continues to decrease. This indicates that for lower values of T, the model does not sufficiently explore the ``bad'' options (B, D, and F) during the training phase, and as a consequence, does not value them appropriately. For higher values of T, the model does explore both bad and good options approximately equally – however, it does not value neither good nor bad options appropriately. Additionally, the maximum Avoid accuracy achieved at the point of inflection (approximately 70\%) is much lower than the maximum Choose accuracy achieved by the model across the range of T values (which is when the value of T is at a minimum; approximately 93\%). 
 
-This pattern of Choose and Avoid accuracies over the range of $T$ values tested suggests the existence of an accuracy/bias trade-off--to become more accurate on average for a given option, the model must bias it’s action choices to exploiting that option (in other words, the model increases the quality of the estimates of the ``good'' options, while becoming more uncertain about the value of the ``bad'' options). Note that this trade-off effect does not manifest in human performance. To visualize the model’s trade-off issues, the model’s estimate error (defined as the bias towards choosing a given option, with respect to the probability of avoiding the same option) can be plotted as a function of its mean accuracy (Figure 1C). An ideal PSS task agent would be able to obtain unbiased estimates for every level of accuracy (the vertical dashed black line). However, as made clear by Figure 1C, the model’s estimate error increases as mean accuracy increases--the model becomes more uncertain about it’s ``bad'' options in order to do well when presented with “good” options.
+This pattern of Choose and Avoid accuracies over the range of $T$ values tested suggests the existence of an accuracy/bias trade-off--to become more accurate on average for a given option, the model must bias it's action choices to exploiting that option (in other words, the model increases the quality of the estimates of the ``good'' options, while becoming more uncertain about the value of the ``bad'' options). Note that this trade-off effect does not manifest in human performance. To visualize the model's trade-off issues, the model’s estimate error (defined as the bias towards choosing a given option, with respect to the probability of avoiding the same option) can be plotted as a function of its mean accuracy (Figure \ref{roc}). An ideal PSS task agent would be able to obtain unbiased estimates for every level of accuracy (the vertical dashed black line). However, as made clear by Figure \ref{roc}, the model's estimate error increases as mean accuracy increases--the model becomes more uncertain about it’s ``bad'' options in order to do well when presented with ``good'' options.
 
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[width=3.5in]{roc-agents.png}
 	\end{center}
 	\caption{Mean accuracy vs. $Q$-value estimate errors for the three models examined in this paper} 
-	\label{pss}
+	\label{roc}
 \end{figure}
 
-Another way in which this apparent accuracy/bias trade-off can be demonstrated is by defining the model so that it learns the value of NOT choosing actions, rather than the value of choosing actions. In other words, the model chooses to ``not choose'' a given option, learning the value of such in the process. In this case, as the value of T decreases, Avoid accuracy increases while Choose accuracy exhibits the inflection behavior seen in Avoid accuracy under the original model (Figure 2?). Now, the model has learned how to navigate amongst “bad” options - it knows the value of not choosing a given option, and so it “doesn’t choose” the “bad” options more often as T  decreases – however, it does not learn about the value of “good” options during the learning process.
+%% THIS SHOULD PROBABLY BE REMOVED
+Another way in which this apparent accuracy/bias trade-off can be demonstrated is by defining the model so that it learns the value of NOT choosing actions, rather than the value of choosing actions. In other words, the model chooses to ``not choose'' a given option, learning the value of such in the process. In this case, as the value of $T$ decreases, Avoid accuracy increases while Choose accuracy exhibits the inflection behavior seen in Avoid accuracy under the original model (Figure 2?). Now, the model has learned how to navigate amongst ``bad'' options--it knows the value of not choosing a given option, and so it ``doesn’t choose'' the ``bad'' options more often as T  decreases. However, it does not learn about the value of ``good'' options during the learning process.
 
 \subsection{Basal Ganglia-Inspired RL Method}
 
@@ -114,53 +117,59 @@ Reinforcement learning is known to be a reliable method of modeling the function
 	\begin{center}
 		\includegraphics[width=3.5in]{basal-ganglia.png}
 	\end{center}
-	\caption{Overview of the basal ganglia} 
-	\label{pss}
+	\caption{Overview of functional anatomy of the basal ganglia. The main basal ganglia nuclei are in grey; the arrows indicate the major projections between nuclei.The indirect pathways is shown in red, while the direct pathway is shown in green.)} 
+	\label{bg}
 \end{figure}
 
-The striatum receives input from cortical structures, and subsequently propagates the signal to later nuclei of the BG through two distinct pathways, termed the ``direct'' and ``indirect'' pathways (Smith, Beyan, Shink, and Bolam, 1998). Of particular interest to neurological/psychological research is the fact that the striatum also receives strong dopaminergic (dopamine; DA) input from the substantia nigra pars compacta (SNc). Dopaminergic signaling originating from the SNc has long been thought to reflect a neural “reward” signal associated with internally-generated action and external stimuli that the organism has learned is, or expects to be, rewarding in some manner, and corresponds closely with the prediction error signal utilized in RL methods (Schultz, 2000; Schultz, Dayan, and Montague, 1997). Additionally, dopaminergic input is a defining characteristic of the “direct” and “indirect” pathways mentioned above – striatial neurons that express D1 receptors (for which DA is an excitatory ligand) form the origin of the direct pathway, while those that express D2 receptors (for which DA is an inhibitory ligand) form the origin of the indirect pathway.
+The striatum receives input from cortical structures, and subsequently propagates the signal to later nuclei of the BG through two distinct pathways, termed the ``direct'' and ``indirect'' pathways (Smith, Beyan, Shink, and Bolam, 1998). Of particular interest to neurological/psychological research is the fact that the striatum also receives strong dopaminergic (dopamine; DA) input from the substantia nigra pars compacta (SNc). Dopaminergic signaling originating from the SNc has long been thought to reflect a neural ``reward'' signal associated with internally-generated action and external stimuli that the organism has learned is, or expects to be, rewarding in some manner, and corresponds closely with the prediction error signal utilized in RL methods (Schultz, 2000; Schultz, Dayan, and Montague, 1997). Additionally, dopaminergic input is a defining characteristic of the ``direct'' and ``indirect'' pathways mentioned above – striatial neurons that express D1 receptors (for which DA is an excitatory ligand) form the origin of the direct pathway, while those that express D2 receptors (for which DA is an inhibitory ligand) form the origin of the indirect pathway.
 
-For the PSS task, although the standard RL model does fairly well overall (approximately 77\%), its performance does not match that of human participants, especially when considering Avoid accuracy. As the model’s results demonstrate, it can learn well about one set of options (either the “good” options or the “bad” options, depending on if it is learning what to choose or what to not choose, respectively), but it does not do well at valuing all options appropriately at any value of T. Ideally, the model could instead learn the values of choosing an option and not choosing the alternative simultaneously, allowing it to train once in order to appropriately value all possible options. Superficially, there seems to be an obvious compatibility between the necessity for a RL model to simultaneously estimate the value both the ``chosen" and ``not chosen'' alternatives within a PSS trial, and DA’s opposing influence on the direct and indirect pathways. Would a model-free RL agent with two "action pathways" perform any better than the standard RL model described above?
+For the PSS task, although the standard RL model does fairly well overall (approximately 77\%), its performance does not match that of human participants, especially when considering Avoid accuracy. As the model’s results demonstrate, it can learn well about one set of options (either the ``good'' options or the ``bad'' options, depending on if it is learning what to choose or what to not choose, respectively), but it does not do well at valuing all options appropriately at any value of $T$. Ideally, the model could instead learn the values of choosing an option and not choosing the alternative simultaneously, allowing it to train once in order to appropriately value all possible options. Superficially, there seems to be an obvious compatibility between the necessity for a RL model to simultaneously estimate the value both the ``chosen" and ``not chosen'' alternatives within a PSS trial, and DA’s opposing influence on the direct and indirect pathways. Would a model-free RL agent with two "action pathways" perform any better than the standard RL model described above?
 
-In order to implement the two-pathway concept, the agent described above was modified to include an opposite set of ``don't" actions ($\neg A, \neg B, \dots, \neg F$), which, when chosen by the agent, result in the selection of the other option that they are paired with. The original set of actions ($A, B, \dots, F$) can be conceptualized as the set of actions available to be suggested by the direct pathway (restricted by actions possible within the current state), while the “antiset” can be conceptualized as the set of actions available to be suggested by the indirect pathway (also restricted by the state). So, if the current trial allows for actions $A$ and $B$, and the agent selects the indirect pathway’s action $\neg A$, the result is the selection of option $B$. Figure 3A shows that the simple addition of an “indirect pathway” to the RL model results in a marked absence of the bias observed in the standard RL model – as the value of T decreases, both choose and avoid accuracies increase commensurately. As such, the model no longer needs to “trade off” increasing the accuracy for one class of action by becoming less confident in the valuations of the other class of action. Instead, for every choice made, it simultaneously learns both the value of the option chosen, and the value of not choosing the alternative. However, note that the maximum Choose and Avoid accuracies of the BG-plausible model do not quite achieve the same level of accuracy as the standard RL models – the uncertainty that the standard model had been attributing to the option not chosen has now been distributed across both available options.  Figure 3B demonstrates that overall, the BG-plausible model achieves essentially the same level of global mean accuracy as the standard models, without the cost of increasing estimate error.  
+In order to implement the two-pathway concept, the agent described above was modified to include an opposite set of ``don't" actions ($\neg A, \neg B, \dots, \neg F$), which, when chosen by the agent, result in the selection of the other option that they are paired with. The original set of actions ($A, B, \dots, F$) can be conceptualized as the set of actions available to be suggested by the direct pathway (restricted by actions possible within the current state), while the ``antiset'' can be conceptualized as the set of actions available to be suggested by the indirect pathway (also restricted by the state). So, if the current trial allows for actions $A$ and $B$, and the agent selects the indirect pathway's action $\neg A$, the result is the selection of option $B$. However, if the current trial allows for actions $A$ and $C$, and the agents select $\neg A$, the result is the selection of option $C$.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=3.5in]{bg-agent-performance.png}
+	\end{center}
+	\caption{Performance of the BG-inspired reinforcement learning agent in the PSS task for various levels of temperature $T$}. Note that there is no difference in the Choose and Avoid accuracies.
+	\label{bg-agents}
+\end{figure}
+
+Figure \ref{bg-agents} shows that the simple addition of an ``indirect pathway'' to the RL model results in a marked absence of the bias observed in the standard RL model--as the value of T decreases, both choose and avoid accuracies increase commensurately. As such, the model no longer needs to ``trade-off'' increasing the accuracy for one class of action by becoming less confident in the valuations of the other class of action. Instead, for every choice made, it simultaneously learns both the value of the option chosen, and the value of not choosing the alternative. However, note that the maximum Choose and Avoid accuracies of the BG-plausible model do not quite achieve the same level of accuracy as the standard RL models--the uncertainty that the standard model had been attributing to the option not chosen has now been distributed across both available options.  Figure \ref{roc} demonstrates that overall, the BG-plausible model (red line) achieves essentially the same level of global mean accuracy as the standard RL model (blue line), but \emph{without} the cost of increasing estimate error.  
 
 
 \subsection{Making the Model More Plausible}
 
-As described, this implementation of “direct” and “indirect” pathways in the RL model does well at capturing the competition between the direct and indirect pathways of the BG, and alleviates the problem of increasing estimate error with increasing accuracy. However, the BG-plausible model still performs similarly to the standard RL models in terms of global mean accuracy, indicating that although the BG-plausible model has improved ability to estimate the value of all options in the environment, this does not translate to improved fitness within the environment. However, just as the standard models were missing a crucial aspect of BG physiology (the presence of dual pathways), the BG-plausible model is missing a crucial feature of these dual pathways – the fact that DA signaling has opposite effects on the direct (excitation, mediated through D1 receptors) and indirect (inhibition, mediated through D2 receptors) pathways. 
+As described, this implementation of ``direct'' and ``indirect'' pathways in the RL model does well at capturing the competition between the direct and indirect pathways of the BG, and alleviates the problem of increasing estimate error with increasing accuracy. However, the BG-plausible model still performs similarly to the standard RL models in terms of global mean accuracy, indicating that although the BG-plausible model has improved ability to estimate the value of all options in the environment, this does not translate to improved fitness within the environment. However, just as the standard models were missing a crucial aspect of BG physiology (the presence of dual pathways), the BG-plausible model is missing a crucial feature of these dual pathways – the fact that DA signaling has opposite effects on the direct (excitation, mediated through D1 receptors) and indirect (inhibition, mediated through D2 receptors) pathways. 
 
-To capture this aspect of BG neurodynamics, the BG-plausible RL model was modified so that the learning algorithm results in opposite changes for the actions to the two pathways (an anti-correlated BG-plausible model). Figure 4A shows the results of simulations ran with this model. At minimum values of T, the maximum mean Choose and Avoid accuracies increase slightly, when compared to the original BG-plausible model. Figure 4B shows that similar to the original BG-plausible model, the mean accuracy of the anti-correlated BG-plausible model increases without a subsequent increase in estimate error. Additionally, the small increase in Choose and Avoid accuracies at minimum values of T translate into significantly better overall performance for the anti-correlated BG-plausible model. 
+To capture this aspect of BG neurodynamics, the BG-plausible RL model was modified so that the learning algorithm results in \emph{opposite} changes for the actions to the two pathways (an anti-correlated BG-plausible model). Specifically, if action $A$ was selected an resulted in an update  of it $Q$-value of size $\delta$, then the $Q$ value of the corresponding anti-action $\neg A$ would be updated by the quantity $-\delta$. As in the biological basal ganglia, this mechanisms forces the values of one set of actions to be anti-correlated to the values of the other set. Note that, importantly.
 
-However, what is most striking about the anti-correlated BG-plausible model is that at relatively large values of T (where the action selection process is noisy), the model performs much better than either the original BG-plausible model, or the standard RL models. This is an indication that the presence of the anti-correlated pathways in the second BG-plausible model bestow a greater resistance to internal noise than the original BG-plausible model and standard RL models possess. Figure 5A more clearly demonstrates this effect: across the range of tested values of T, the mean accuracies of the original BG-plausible model are almost identical to the standard RL model (in fact, the standard Gibbs RL model performs slightly better at some intermediate values of T). However, across the same range of T values, the anti-correlated BG-plausible model performs much better in almost every circumstance. The model does not perform as well as the standard/``original BG'' models only when the value of T is very close to zero, indicating almost no noise in the action selection process. A similar analysis can be performed for the model’s estimate error, as seen in Figure 5B. This again shows that for every tested value of T, there is little or no difference between either BG-plausible model – the presence of the two pathways allows each model to accurately estimate the value of both Choose (A, C, and E) and Avoid (B, D, and F) options. However, the standard RL model shows significant estimation biases as the lowest levels of noise, when the model’s performance is at a maximum.
+Figure \ref{bg-anti-agent} shows the results of simulations ran with this model. At minimum values of T, the maximum mean Choose and Avoid accuracies increase slightly, when compared to the original BG-plausible model. Figure \ref{roc} shows that, similar to the original BG-plausible model (red line), the mean accuracy of the anti-correlated BG-plausible model (yellow line) increases without a subsequent increase in estimate error. Additionally, the small increase in Choose and Avoid accuracies at minimum values of T translate into significantly better overall performance for the anti-correlated BG-plausible model. 
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=3.5in]{bg-anti-agent-performance.png}
+	\end{center}
+	\caption{Performance of $Q$-learning model in the PSS task for various levels of temperature $T$} 
+	\label{bg-anti-agent}
+\end{figure}
+
+However, what is most striking about the anti-correlated BG-plausible model is that at relatively large values of T (where the action selection process is noisy), the model performs much better than either the original BG-plausible model, or the standard RL models. This is an indication that the presence of the anti-correlated pathways in the second BG-plausible model bestow a greater resistance to internal noise than the original BG-plausible model and standard RL models possess. Figure \ref{resistance-to-noise} more clearly demonstrates this effect: across the range of tested values of $T$, the mean accuracies of the original BG-plausible model are almost identical to the standard RL model. However, across the same range of $T$ values, the anti-correlated BG-plausible model performs much better in almost every circumstance.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=3.5in]{resistance-to-noise.png}
+	\end{center}
+	\caption{Performance of $Q$-learning model in the PSS task for various levels of temperature $T$} 
+	\label{resistance-to-noise}
+\end{figure}
+
+The model does not perform as well as the standard ``original BG'' models only when the value of $T$ is very close to zero, indicating almost no noise in the action selection process. A similar analysis can be performed for the model's estimate error, as seen in Figure \ref{roc}. This again shows that for every tested value of $T$, there is little or no difference between either BG-plausible model – the presence of the two pathways allows each model to accurately estimate the value of both Choose (A, C, and E) and Avoid (B, D, and F) options. However, the standard RL model shows significant estimation biases as the lowest levels of noise, when the model’s performance is at a maximum.
 
 \section{Conclusions}
 
-In conclusion, the improved performance of the BG-plausible RL models implies that psychological researchers looking to model the functions of the basal ganglia could do well by taking inspiration from the characteristics of the phenomena they model, even when the modeling effort is largely theoretical. Addition of the model’s opposed update pathways, representative of the well-known direct and indirect pathways within the basal ganglia, allowed the “original” BG-plausible model to properly estimate the value of both the “good” (relatively high probability of reward) and “bad” (relatively low probability of reward) options available in the PSS task, eliminating the bias towards “good” options displayed by the standard RL model. In addition, by forcing the updates of the two pathways to be anti-correlated (thereby mimicking the opposed excitatory/inhibitory effect of dopamine on the direct and indirect pathways), the model displayed a marked resistance to greater levels of noise within the selection mechanism.    
+In conclusion, the improved performance of the BG-plausible RL models implies that psychological researchers looking to model the functions of the basal ganglia could do well by taking inspiration from the characteristics of the phenomena they model, even when the modeling effort is largely theoretical. Addition of the model’s opposed update pathways, representative of the well-known direct and indirect pathways within the basal ganglia, allowed the original BG-plausible model to properly estimate the value of both the ``good'' (relatively high probability of reward) and ``bad'' (relatively low probability of reward) options available in the PSS task, eliminating the bias towards ``good'' options displayed by the standard RL model. In addition, by forcing the updates of the two pathways to be anti-correlated (thereby mimicking the opposed excitatory/inhibitory effect of dopamine on the direct and indirect pathways), the model displayed a marked resistance to greater levels of noise within the selection mechanism.    
 
-Indent the first line of each paragraph by 1/8~inch (except for the
-first paragraph of a new section). Do not add extra vertical space
-between paragraphs.
-
-
-\section{First-Level Headings}
-
-First level headings should be in 12~point, initial caps, bold and
-centered. Leave one line space above the heading and 1/4~ line space
-below the heading.
-
-
-\subsection{Second-Level Headings}
-
-Second level headings should be 11~point, initial caps, bold, and
-flush left. Leave one line space above the heading and 1/4~ line
-space below the heading.
-
-
-\subsubsection{Third-Level Headings}
-
-Third-level headings should be 10~point, initial caps, bold, and flush
-left. Leave one line space above the heading, but no space after the
-heading.
 
 
 \section{Formalities, Footnotes, and Floats}
@@ -178,59 +187,6 @@ publication in an earlier reference and for citations with four or
 more authors.
 
 
-\subsection{Footnotes}
-
-Indicate footnotes with a number\footnote{Sample of the first
-  footnote.} in the text. Place the footnotes in 9~point type at the
-bottom of the page on which they appear. Precede the footnote with a
-horizontal rule.\footnote{Sample of the second footnote.}
-
-
-\subsection{Tables}
-
-Number tables consecutively; place the table number and title (in
-10~point) above the table with one line space above the caption and
-one line space below it, as in Table~\ref{sample-table}. You may float
-tables to the top or bottom of a column, set wide tables across both
-columns.
-
-\begin{table}[!ht]
-\begin{center} 
-\caption{Sample table title.} 
-\label{sample-table} 
-\vskip 0.12in
-\begin{tabular}{ll} 
-\hline
-Error type    &  Example \\
-\hline
-Take smaller        &   63 - 44 = 21 \\
-Always borrow~~~~   &   96 - 42 = 34 \\
-0 - N = N           &   70 - 47 = 37 \\
-0 - N = 0           &   70 - 47 = 30 \\
-\hline
-\end{tabular} 
-\end{center} 
-\end{table}
-
-
-\subsection{Figures}
-
-All artwork must be very dark for purposes of reproduction and should
-not be hand drawn. Number figures sequentially, placing the figure
-number and caption, in 10~point, after the figure with one line space
-above the caption and one line space below it, as in
-Figure~\ref{sample-figure}. If necessary, leave extra white space at
-the bottom of the page to avoid splitting the figure and figure
-caption. You may float figures to the top or bottom of a column, or
-set wide figures across both columns.
-
-\begin{figure}[ht]
-\begin{center}
-\fbox{CoGNiTiVe ScIeNcE}
-\end{center}
-\caption{This is a figure.} 
-\label{sample-figure}
-\end{figure}
 
 
 \section{Acknowledgments}

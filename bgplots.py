@@ -23,7 +23,7 @@ def plot_results(results, param_values):
     ax.set_xticklabels(["Choose", "Avoid"])
     plt.show()
 
-def plot_rocs(result_list, color_list, legend=None):
+def plot_rocs(result_list, color_list, legend=None, title=None):
     plt.axis([-0.025, 0.30, 0.5, 0.85])
     plt.ylabel("Mean accuracy")
     plt.xlabel("Estimate Error")
@@ -47,4 +47,23 @@ def plot_rocs(result_list, color_list, legend=None):
     plt.plot([0, 0], [0.5, 1], "--", color="grey")
     if legend is not None:
         plt.legend(legend, loc="best")
-plt.show()
+    plt.grid()
+    if title is not None:
+        plt.title(title)
+        
+    plt.show()
+
+def plot_ca(results, color_list, title=None):
+    T = sorted(results.keys())
+    choose = [results[x][0] for x in T]
+    avoid = [results[x][1] for x in T]
+    plt.plot(T, choose, "o-", color=color_list[0])
+    plt.plot(T, avoid, "o-", color=color_list[1])
+    plt.axis([-0.1, 4.1, 0.5, 0.92])
+    plt.xlabel(r"Temperature $T$")
+    plt.ylabel("Accuracy")
+    plt.grid()
+    plt.legend(["Choose accuracy", "Avoid accuracy"], loc="best")
+    if title is not None:
+        plt.title(title)
+    plt.show()
