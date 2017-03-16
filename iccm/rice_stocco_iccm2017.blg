@@ -9,40 +9,44 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-Database file #1: CogSci_Template.bib
+Database file #1: rice_stocco_iccm2017.bib
+Repeated entry---line 295 of file rice_stocco_iccm2017.bib
+ : @book{NewellSimon1972a
+ :                       ,
+I'm skipping whatever remains of this entry
 apacite.bst [2009/03/01 v4.05 APA bibliography style]
 You've used 7 entries,
             6361 wiz_defined-function locations,
-            1231 strings with 10833 characters,
-and the built_in function-call counts, 12201 in all, are:
-= -- 1612
+            1230 strings with 10830 characters,
+and the built_in function-call counts, 12428 in all, are:
+= -- 1642
 > -- 108
-< -- 468
-+ -- 487
+< -- 489
++ -- 514
 - -- 14
-* -- 696
-:= -- 2080
+* -- 716
+:= -- 2143
 add.period$ -- 33
 call.type$ -- 7
 change.case$ -- 38
 chr.to.int$ -- 0
 cite$ -- 14
-duplicate$ -- 302
+duplicate$ -- 305
 empty$ -- 512
 format.name$ -- 144
-if$ -- 2462
+if$ -- 2492
 int.to.chr$ -- 0
 int.to.str$ -- 14
 missing$ -- 0
 newline$ -- 166
 num.names$ -- 59
-pop$ -- 280
+pop$ -- 281
 preamble$ -- 1
 purify$ -- 28
 quote$ -- 0
-skip$ -- 866
+skip$ -- 869
 stack$ -- 0
-substring$ -- 602
+substring$ -- 631
 swap$ -- 176
 text.length$ -- 35
 text.prefix$ -- 0
@@ -52,3 +56,4 @@ warning$ -- 0
 while$ -- 49
 width$ -- 0
 write$ -- 195
+(There was 1 error message)

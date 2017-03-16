@@ -101,30 +101,6 @@ Doctoral dissertation, Department of Psychology, University of Michigan, Ann
 \PrintBackRefs{\CurrentBib}
 
 \bibitem[\protect\citeauthoryear{%
-Newell%
-\ \BBA{} Simon%
-}{%
-Newell%
-\ \BBA{} Simon%
-}{%
-{\protect\APACyear{1972}}%
-}]{%
-NewellSimon1972a}%
-\APACinsertmetastar{%
-NewellSimon1972a}%
-Newell, A.%
-\BCBT{}\ \BBA{} Simon, H\BPBI A.%
-%
-\unskip\
-\newblock
-\APACrefYear{1972}.
-\newblock
-\APACrefbtitle{Human problem solving}{Human problem solving}.
-\newblock
-\APACaddressPublisher{Englewood Cliffs, NJ}{Prentice-Hall}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem[\protect\citeauthoryear{%
 Ohlsson%
 \ \BBA{} Langley%
 }{%
@@ -175,6 +151,31 @@ Shrager, J.%
   formation}.
 \newblock
 \APACaddressPublisher{San Mateo, CA}{Morgan Kaufmann}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Sutton%
+\ \BBA{} Barto%
+}{%
+Sutton%
+\ \BBA{} Barto%
+}{%
+{\protect\APACyear{1998}}%
+}]{%
+NewellSimon1972a}%
+\APACinsertmetastar{%
+NewellSimon1972a}%
+Sutton, R\BPBI S.%
+\BCBT{}\ \BBA{} Barto, A\BPBI G.%
+%
+\unskip\
+\newblock
+\APACrefYear{1998}.
+\newblock
+\APACrefbtitle{Reinforcement learning: An introduction }{Reinforcement
+  learning: An introduction }.
+\newblock
+\APACaddressPublisher{Cambrdige, MA}{MIT Press}.
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
