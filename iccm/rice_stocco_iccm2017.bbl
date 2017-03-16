@@ -1,6 +1,32 @@
 \begin{thebibliography}{}
 
 \bibitem[\protect\citeauthoryear{%
+Alexander%
+\ \BBA{} Crutcher%
+}{%
+Alexander%
+\ \BBA{} Crutcher%
+}{%
+{\protect\APACyear{1990}}%
+}]{%
+alexander1990function}%
+\APACinsertmetastar{%
+alexander1990function}%
+Alexander, G\BPBI E.%
+\BCBT{}\ \BBA{} Crutcher, M\BPBI D.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1990}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Functional architecture of basal ganglia circuits: Neural
+  substrates of parallel processing}{Functional architecture of basal ganglia
+  circuits: Neural substrates of parallel processing}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Trends in neurosciences}{13}{}{266--271}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
 Chalnick%
 \ \BBA{} Billman%
 }{%
@@ -55,6 +81,65 @@ Feigenbaum, E\BPBI A.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem[\protect\citeauthoryear{%
+Frank%
+, Moustafa%
+, Haughey%
+, Curran%
+\BCBL{}\ \BBA{} Hutchison%
+}{%
+Frank%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{2007}}%
+}]{%
+frank2007genetic}%
+\APACinsertmetastar{%
+frank2007genetic}%
+Frank, M\BPBI J.%
+, Moustafa, A\BPBI A.%
+, Haughey, H\BPBI M.%
+, Curran, T.%
+\BCBL{}\ \BBA{} Hutchison, K\BPBI E.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2007}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Genetic triple dissociation reveals multiple roles for
+  dopamine in reinforcement learning}{Genetic triple dissociation reveals
+  multiple roles for dopamine in reinforcement learning}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Proceedings of the National Academy of
+  Sciences}{104}{41}{16311--16316}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Frank%
+, Seeberger%
+\BCBL{}\ \BBA{} O'reilly%
+}{%
+Frank%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{2004}}%
+}]{%
+frank2004carrot}%
+\APACinsertmetastar{%
+frank2004carrot}%
+Frank, M\BPBI J.%
+, Seeberger, L\BPBI C.%
+\BCBL{}\ \BBA{} O'reilly, R\BPBI C.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{By carrot or by stick: cognitive reinforcement learning
+  in parkinsonism}{By carrot or by stick: cognitive reinforcement learning in
+  parkinsonism}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Science}{306}{5703}{1940--1943}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
 Hill%
 }{%
 Hill%
@@ -101,6 +186,30 @@ Doctoral dissertation, Department of Psychology, University of Michigan, Ann
 \PrintBackRefs{\CurrentBib}
 
 \bibitem[\protect\citeauthoryear{%
+Newell%
+\ \BBA{} Simon%
+}{%
+Newell%
+\ \BBA{} Simon%
+}{%
+{\protect\APACyear{1972}}%
+}]{%
+NewellSimon1972a}%
+\APACinsertmetastar{%
+NewellSimon1972a}%
+Newell, A.%
+\BCBT{}\ \BBA{} Simon, H\BPBI A.%
+%
+\unskip\
+\newblock
+\APACrefYear{1972}.
+\newblock
+\APACrefbtitle{Human problem solving}{Human problem solving}.
+\newblock
+\APACaddressPublisher{Englewood Cliffs, NJ}{Prentice-Hall}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
 Ohlsson%
 \ \BBA{} Langley%
 }{%
@@ -125,6 +234,54 @@ Ohlsson, S.%
 \newblock
 \APACaddressInstitution{Pittsburgh, PA}{Carnegie Mellon University, The
   Robotics Institute}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Schultz%
+}{%
+Schultz%
+}{%
+{\protect\APACyear{2000}}%
+}]{%
+schultz2000multuple}%
+\APACinsertmetastar{%
+schultz2000multuple}%
+Schultz, W.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2000}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Multiple reward signals in the brain}{Multiple reward
+  signals in the brain}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Nature Reviews Neuroscience}{1}{}{199--207}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Schultz%
+, Dayan%
+\BCBL{}\ \BBA{} Montague%
+}{%
+Schultz%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{1997}}%
+}]{%
+schultz1997neural}%
+\APACinsertmetastar{%
+schultz1997neural}%
+Schultz, W.%
+, Dayan, P.%
+\BCBL{}\ \BBA{} Montague, P\BPBI R.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1997}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{A neural substrate of prediction and reward}{A neural
+  substrate of prediction and reward}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Science}{275}{}{1593--1599}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem[\protect\citeauthoryear{%
@@ -154,6 +311,89 @@ Shrager, J.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem[\protect\citeauthoryear{%
+Smith%
+, Beyan%
+, Shrink%
+\BCBL{}\ \BBA{} Bolam%
+}{%
+Smith%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{1998}}%
+}]{%
+smith1998microcircuitry}%
+\APACinsertmetastar{%
+smith1998microcircuitry}%
+Smith, Y.%
+, Beyan, M\BPBI D.%
+, Shrink, E.%
+\BCBL{}\ \BBA{} Bolam, J\BPBI P.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1998}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Microcircuitry of the direct and indirect pathways of the
+  basal ganglia}{Microcircuitry of the direct and indirect pathways of the
+  basal ganglia}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Neuroscience}{86}{}{353--388}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Stocco%
+\ \protect\BOthers{.}}{%
+Stocco%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{in press}}%
+}]{%
+stocco2017individual}%
+\APACinsertmetastar{%
+stocco2017individual}%
+Stocco, A.%
+, Murray, N\BPBI L.%
+, Yamasaki, B\BPBI L.%
+, Renno, T\BPBI J.%
+, Nguyen, J.%
+\BCBL{}\ \BBA{} Prat, C\BPBI S.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{in press}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Individual Differences in the Simon Effect are
+  Underpinned By Differences in Competitive Dynamics of the Basal Ganglia: An
+  Experimental Verification and a Computational Model}{Individual differences
+  in the simon effect are underpinned by differences in competitive dynamics of
+  the basal ganglia: An experimental verification and a computational
+  model}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Cognition}{}{}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Sutton%
+}{%
+Sutton%
+}{%
+{\protect\APACyear{1988}}%
+}]{%
+sutton1988learning}%
+\APACinsertmetastar{%
+sutton1988learning}%
+Sutton, R\BPBI S.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1988}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Learning to predict by the methods of temporal
+  differences}{Learning to predict by the methods of temporal
+  differences}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Machine Learning}{3}{}{9--44}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
 Sutton%
 \ \BBA{} Barto%
 }{%
@@ -162,9 +402,9 @@ Sutton%
 }{%
 {\protect\APACyear{1998}}%
 }]{%
-NewellSimon1972a}%
+sutton1998reinforcement}%
 \APACinsertmetastar{%
-NewellSimon1972a}%
+sutton1998reinforcement}%
 Sutton, R\BPBI S.%
 \BCBT{}\ \BBA{} Barto, A\BPBI G.%
 %
@@ -176,6 +416,30 @@ Sutton, R\BPBI S.%
   learning: An introduction }.
 \newblock
 \APACaddressPublisher{Cambrdige, MA}{MIT Press}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Watkins%
+\ \BBA{} Dayan%
+}{%
+Watkins%
+\ \BBA{} Dayan%
+}{%
+{\protect\APACyear{1992}}%
+}]{%
+watkins1992q}%
+\APACinsertmetastar{%
+watkins1992q}%
+Watkins, C\BPBI J.%
+\BCBT{}\ \BBA{} Dayan, P.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1992}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Q-learning}{Q-learning}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Machine learning}{8}{3-4}{279--292}.
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}

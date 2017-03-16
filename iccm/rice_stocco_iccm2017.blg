@@ -10,50 +10,45 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Database file #1: rice_stocco_iccm2017.bib
-Repeated entry---line 295 of file rice_stocco_iccm2017.bib
- : @book{NewellSimon1972a
- :                       ,
-I'm skipping whatever remains of this entry
 apacite.bst [2009/03/01 v4.05 APA bibliography style]
-You've used 7 entries,
+You've used 17 entries,
             6361 wiz_defined-function locations,
-            1230 strings with 10830 characters,
-and the built_in function-call counts, 12428 in all, are:
-= -- 1642
-> -- 108
-< -- 489
-+ -- 514
-- -- 14
-* -- 716
-:= -- 2143
-add.period$ -- 33
-call.type$ -- 7
-change.case$ -- 38
+            1297 strings with 12569 characters,
+and the built_in function-call counts, 32061 in all, are:
+= -- 4027
+> -- 285
+< -- 1471
++ -- 1602
+- -- 34
+* -- 2025
+:= -- 5808
+add.period$ -- 73
+call.type$ -- 17
+change.case$ -- 88
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 305
-empty$ -- 512
-format.name$ -- 144
-if$ -- 2492
+cite$ -- 34
+duplicate$ -- 870
+empty$ -- 1262
+format.name$ -- 453
+if$ -- 6139
 int.to.chr$ -- 0
-int.to.str$ -- 14
+int.to.str$ -- 34
 missing$ -- 0
-newline$ -- 166
-num.names$ -- 59
-pop$ -- 281
+newline$ -- 412
+num.names$ -- 139
+pop$ -- 575
 preamble$ -- 1
-purify$ -- 28
+purify$ -- 68
 quote$ -- 0
-skip$ -- 869
+skip$ -- 2060
 stack$ -- 0
-substring$ -- 631
-swap$ -- 176
-text.length$ -- 35
+substring$ -- 1826
+swap$ -- 484
+text.length$ -- 55
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 752
+type$ -- 1552
 warning$ -- 0
-while$ -- 49
+while$ -- 151
 width$ -- 0
-write$ -- 195
-(There was 1 error message)
+write$ -- 515

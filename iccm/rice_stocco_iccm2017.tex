@@ -52,11 +52,11 @@ Reinforcement learning; basal ganglia; dopamine; computational models
 \section{Introduction}
 
 
-Model-free reinforcement learning (RL) is a powerful approach for obtaining an optimal long-term action policy in the absence of transition probability and reinforcement functions. In other words, a model-free RL agent must interact with an unknown environment (i.e., sample the environment repeatedly through action) in order to construct an optimal control policy, based on the pattern of reward received by interaction with the environment. This framing of RL methods makes clear their power in modeling human and animal decision-making. Policies refined through RL mechanisms are oriented such that the agent's (i.e., human/animal) actions consider both immediate and future reward, optimized to maximize some value over time. The key idea that enables an agent to determine an optimal policy within an unknown environment is that of temporal-difference (TD) learning (Sutton 1988). 
+Model-free reinforcement learning (RL) is a powerful approach for obtaining an optimal long-term action policy in the absence of transition probability and reinforcement functions. In other words, a model-free RL agent must interact with an unknown environment (i.e., sample the environment repeatedly through action) in order to construct an optimal control policy, based on the pattern of reward received by interaction with the environment. This framing of RL methods makes clear their power in modeling human and animal decision-making. Policies refined through RL mechanisms are oriented such that the agent's (i.e., human/animal) actions consider both immediate and future reward, optimized to maximize some value over time. The key idea that enables an agent to determine an optimal policy within an unknown environment is that of temporal-difference (TD) learning \cite{sutton1988learning}. 
 
-The ideas behind TD methods have since been expanded, including a proposal by Watson (1989) that defined a TD control algorithm now known as $Q$-learning. $Q$-learning is an off-policy method that allows the agent to choose to take non-optimal actions while still estimating an optimal value function. By updating action values based on the best action available while allowing the agent to make inferior choices, this procedure increases the rate of learning under a suboptimal action selection process. Both TD learning and Q-learning have been shown to converge to the optimal value function with probability $P = 1$ (Sutton and Barto, 2012).
+The ideas behind TD methods have since been expanded, including a proposal by \citeA{watkins1992q} that defined a TD control algorithm now known as $Q$-learning. $Q$-learning is an off-policy method that allows the agent to choose to take non-optimal actions while still estimating an optimal value function. By updating action values based on the best action available while allowing the agent to make inferior choices, this procedure increases the rate of learning under a suboptimal action selection process. Both TD learning and Q-learning have been shown to converge to the optimal value function with probability $P = 1$ \cite{sutton1998reinforcement}.
 
-However, in some circumstances, these model-free RL methods produce suboptimal results. As defined, these methods emphasize learning of rewarding actions - updating the value of a state/state action (SA) pair increases the likelihood that the agent will choose the action that leads to that state/SA pair when it is next given the opportunity to do so. As a result, even though it converges to an optimal value function, an agent still does not have complete knowledge of its environment -- namely, it does not know much (if anything) about the least rewarding states/SA pairs. This is an instance of the general exploration-exploitation trade-off that many models encounter. Lacking knowledge of the least rewarding alternatives is not an issue while the agent has full access to its actions, but what if learned ``good'' (i.e. optimal) states/SA pairs are blocked from the agent? In this case, the agent cannot take the actions it usually would by following its policy and value function, and as a consequence, cannot act optimally within the ``new'' environment. In essence, the agent has no knowledge of how to navigate bad options – how to choose the ``least bad'', when forced to.
+However, in some circumstances, these model-free RL methods produce suboptimal results. As defined, these methods emphasize learning of rewarding actions -- updating the value of a state/state action (SA) pair increases the likelihood that the agent will choose the action that leads to that state/SA pair when it is next given the opportunity to do so. As a result, even though it converges to an optimal value function, an agent still does not have complete knowledge of its environment -- namely, it does not know much (if anything) about the least rewarding states/SA pairs. This is an instance of the general exploration-exploitation trade-off that many models encounter. Lacking knowledge of the least rewarding alternatives is not an issue while the agent has full access to its actions, but what if learned ``good'' (i.e. optimal) states/SA pairs are blocked from the agent? In this case, the agent cannot take the actions it usually would by following its policy and value function, and as a consequence, cannot act optimally within the ``new'' environment. In essence, the agent has no knowledge of how to navigate bad options -- how to choose the ``least bad'', when forced to.
 
 \subsection{The Probabilistic Stimulus Selection Task}
 
@@ -68,7 +68,7 @@ However, in some circumstances, these model-free RL methods produce suboptimal r
 	\label{pss}
 \end{figure*}
 
-A situation in which this circumstance arises is when modeling a well-known psychology task paradigm, the Probabilistic Stimulus Selection (PSS) task (Frank, Seeberger, and O'Reilly, 2004). The PSS task is a repetitive, two-alternative forced-choice task made up of two consecutive phases, a \emph{training phase} in which a participant repeatedly makes choices between fixed pairs of stimuli, and a \emph{test phase} where the participant is presented with new combinations of options (see Figure \ref{pss}).
+A situation in which this circumstance arises is when modeling a well-known psychology task paradigm, the Probabilistic Stimulus Selection (PSS) task \cite{frank2004carrot}. The PSS task is a repetitive, two-alternative forced-choice task made up of two consecutive phases, a \emph{training phase} in which a participant repeatedly makes choices between fixed pairs of stimuli, and a \emph{test phase} where the participant is presented with new combinations of options (see Figure \ref{pss}).
 
 Across both phases, there are six possible stimuli, implemented as symbols that are difficult to describe (in order to make memorization of each stimulus’ history of success more difficult). Each stimulus carries an intrinsic probability of success, ranging linearly from 20\% to 80\%. During the training phase, the stimuli are presented a fixed pairs, for a total of three sets: $(A, B)$  $(C,D)$, and $(E, F)$, with associated reward probabilities of $(80\%, 20\%)$, $(70\%, 30\%)$, and $(60\%, 40\%)$, respectively. Participants receive feedback regarding the outcome of their decision directly after making a selection. Participants are instructed to attempt to maximize their success by choosing what they believe to be the ``correct'' option on each trial. Once a participant’s performance reached a predefined criterion (different for each pair: 65\%, 60\%, and 50\% probability of choosing the higher valued option for the sets of $(A, B)$  $(C,D)$, and $(E, F)$, respectively), the test phase begins. During the test phase, participants are shown all possible combinations of the six stimuli(fifteen total, four times each, for a total of 60 trials), and do not receive feedback upon selection. From the test phase, two different measures are calculated: the participant's \emph{Choose accuracy}, (the probability of choosing the highest valued alternative (A; 80\% reward probability)) of any given fixed set from the training session, when it is paired with any other alternative), and the participant's \emph{Avoid accuracy} (the probability of not choosing the lowest valued alternative (B, 20\% reward probability)) when it is paired with any other alternative (excepting A). These measures can generally be interpreted to be the participant's tendencies to pursue reward and avoid punishment, respectively.
 
@@ -80,7 +80,7 @@ Across both phases, there are six possible stimuli, implemented as symbols that 
 	\label{RL-agent-performance}
 \end{figure}
 
-Human participants perform close to criterion in the test phase, with an average of about 70\% accuracy in both Choose and Avoid (Frank et al., 2004; 2007; Stocco et al, in press).
+Human participants perform close to criterion in the test phase, with an average of about 70\% accuracy in both Choose and Avoid \cite{frank2004carrot, frank2007genetic, stocco2017individual}.
 
 \section{Model Comparisons}
 
@@ -92,9 +92,9 @@ When the participant in the PSS task is modeled as a $Q$-learning agent that emp
 P(a_i) = \frac{e^{\frac{Q(a_i)}{T}}}{\sum_{j} e^{\frac{Q(a_j)}{T}}}\\.
 \end{equation}
 
-(under which the probability of the agent choosing a given action increases proportionally with the action's value $Q(s,a)$, normalized by a constant $T$, defined as the \emph{temperature} of the system. Higher values of $T$ inject more noise into the action selection process, making selection less deterministic), some alarming results are observed. Specifically, the model learns the value of of the desirable options $A$, $C$, and $E$ well, reflected as an increasing Choose accuracy as $T$ decreases (Figure 1A,B). This is the expected behavior of the model -- as exploration begins to suggest relatively ``better'' options, the model quickly switches to exploiting them, learning their true values well in the process \footnote{Although here we report the results obtained using Gibb's distribution, the same results have been replicated with another common policy that balances exploration and exploitation, the $\epsilon$-greedy policy}. 
+(under which the probability of the agent choosing a given action increases proportionally with the action's value $Q(s,a)$, normalized by a constant $T$, defined as the \emph{temperature} of the system. Higher values of $T$ inject more noise into the action selection process, making selection less deterministic), some alarming results are observed. Specifically, the model learns the value of of the desirable options $A$, $C$, and $E$ well, reflected as an increasing Choose accuracy as $T$ decreases (Figure \ref{RL-agent-performance}, grey line). This is the expected behavior of the model -- as exploration begins to suggest relatively ``better'' options, the model quickly switches to exploiting them, learning their true values well in the process \footnote{Although here we report the results obtained using Gibb's distribution, the same results have been replicated with another common policy that balances exploration and exploitation, the $\epsilon$-greedy policy}. 
 
-However, when the Avoid accuracy of the model is inspected, it becomes clear that the model has learned the value of some, but not all, options well. As the value of $T$ begins decreasing, the Avoid accuracy of the model does begin increasing, as the Choose accuracy did. However, the model's Avoid accuracy actually begins decreasing (Figure 1A,B) as $T$ continues to decrease. This indicates that for lower values of $T$, the model does not sufficiently explore the ``bad'' options (B, D, and F) during the training phase, and as a consequence, does not value them appropriately. For higher values of $T$, the model does explore both bad and good options approximately equally -- however, it does not value neither good nor bad options appropriately. Additionally, the maximum Avoid accuracy achieved at the point of inflection (approximately 70\%) is much lower than the maximum Choose accuracy achieved by the model (which is when the value of T is at a minimum; approximately 93\%), as well as the Choose accuracy at the point of inflection. 
+However, when the Avoid accuracy of the model is inspected, it becomes clear that the model has learned the value of some, but not all, options well. As the value of $T$ begins decreasing, the Avoid accuracy of the model does begin increasing, as the Choose accuracy did. However, the model's Avoid accuracy actually begins decreasing (Figure \ref{RL-agent-performance}, black line) as $T$ continues to decrease. This indicates that for lower values of $T$, the model does not sufficiently explore the ``bad'' options (B, D, and F) during the training phase, and as a consequence, does not value them appropriately. For higher values of $T$, the model does explore both bad and good options approximately equally -- however, it does not value neither good nor bad options appropriately. Additionally, the maximum Avoid accuracy achieved at the point of inflection (less than 70\%) is much lower than the maximum Choose accuracy achieved by the model (which is when the value of $T$ is at a minimum; approximately 90\%), as well as the Choose accuracy at the point of inflection. 
 
 This pattern of Choose and Avoid accuracies over the range of $T$ values tested suggests the existence of an accuracy/bias trade-off -- to become more accurate on average for a given option, the model must bias it's action choices to exploiting that option (in other words, the model increases the quality of it's estimates of the ``good'' options, while becoming more uncertain about the value of the ``bad'' options). Note that this trade-off effect does not manifest in human performance. To visualize the model's trade-off issues, the model's estimate error (defined as the bias towards choosing a given option, with respect to the probability of avoiding the same option) can be plotted as a function of its mean accuracy (Figure \ref{roc}). An ideal PSS task agent would be able to obtain unbiased estimates for every level of accuracy (the vertical dashed black line). However, as made clear by Figure \ref{roc}, the model's estimate error increases as mean accuracy increases--the model becomes more uncertain about it’s ``bad'' options in order to do well when presented with ``good'' options.
 
@@ -111,7 +111,7 @@ Another way in which this apparent accuracy/bias trade-off can be demonstrated i
 
 \subsection{Basal Ganglia-Inspired RL Method}
 
-Reinforcement learning is known to be a reliable method of modeling the function of the basal ganglia (BG) system, a network of subcortical nuclei including the striatum, globus pallidus, substania nigra, and subthalamic nucleus (Alexander and Crutcher, 1990).
+Reinforcement learning is known to be a reliable method of modeling the function of the basal ganglia (BG) system, a network of subcortical nuclei including the striatum, globus pallidus, substania nigra, and subthalamic nucleus \cite{alexander1990function}.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -121,7 +121,7 @@ Reinforcement learning is known to be a reliable method of modeling the function
 	\label{bg}
 \end{figure}
 
-The striatum receives input from cortical structures, and subsequently propagates the signal to later nuclei of the BG through two distinct pathways, termed the ``direct'' and ``indirect'' pathways (Smith, Beyan, Shink, & Bolam, 1998). Of particular interest to neurological/psychological research is the fact that the striatum also receives strong dopaminergic (dopamine; DA) input from the substantia nigra pars compacta (SNc). Dopaminergic signaling originating from the SNc has long been thought to reflect a neural ``reward'' signal associated with internally-generated action and external stimuli that the organism has learned is (or expects to be) rewarding in some manner, and corresponds closely with the prediction error signal utilized in RL methods (Schultz, 2000; Schultz, Dayan, and Montague, 1997). Additionally, dopaminergic input is a defining characteristic of the ``direct'' and ``indirect'' pathways mentioned above -- striatal neurons that express D1 receptors (for which DA is an excitatory ligand) form the origin of the direct pathway, while those that express D2 receptors (for which DA is an inhibitory ligand) form the origin of the indirect pathway.
+The striatum receives input from cortical structures, and subsequently propagates the signal to later nuclei of the BG through two distinct pathways, termed the ``direct'' and ``indirect'' pathways \cite{smith1998microcircuitry}. Of particular interest to neurological/psychological research is the fact that the striatum also receives strong dopaminergic (dopamine; DA) input from the substantia nigra pars compacta (SNc). Dopaminergic signaling originating from the SNc has long been thought to reflect a neural ``reward'' signal associated with internally-generated action and external stimuli that the organism has learned is (or expects to be) rewarding in some manner, and corresponds closely with the prediction error signal utilized in RL methods \cite{schultz2000multuple, schultz1997neural}. Additionally, dopaminergic input is a defining characteristic of the ``direct'' and ``indirect'' pathways mentioned above -- striatal neurons that express D1 receptors (for which DA is an excitatory ligand) form the origin of the direct pathway, while those that express D2 receptors (for which DA is an inhibitory ligand) form the origin of the indirect pathway.
 
 For the PSS task, although the standard RL model does fairly well overall (approximately 77\%), it's performance does not match that of human participants, especially when considering Avoid accuracy. As the model's results demonstrate, it learns well about one set of options (either the ``good'' options or the ``bad'' options, depending on if it is learning what to choose or what to not choose, respectively), but it does not do well at valuing all options appropriately at all values of $T$. Ideally, the model could instead learn the values of choosing an option and not choosing the alternative simultaneously, allowing it to train once in order to appropriately value all possible options. Superficially, there seems to be an obvious compatibility between the necessity for a RL model to simultaneously estimate the value both the ``chosen" and ``not chosen'' alternatives within a PSS trial, and dopamine's opposing influence on the direct and indirect pathways. Would a model-free RL agent with two ``action pathways'' perform any better than the standard RL model described above?
 
@@ -170,57 +170,9 @@ The model does not perform as well as the standard ``original BG'' models only w
 
 In conclusion, the improved performance of the BG-plausible RL models implies that psychological researchers looking to model the functions of the basal ganglia could do well by taking inspiration from the characteristics of the phenomena they model, even when the modeling effort is largely theoretical. Addition of the model’s opposed update pathways, representative of the well-known direct and indirect pathways within the basal ganglia, allowed the original BG-plausible model to properly estimate the value of both the ``good'' (relatively high probability of reward) and ``bad'' (relatively low probability of reward) options available in the PSS task, eliminating the bias towards ``good'' options displayed by the standard RL model. In addition, by forcing the updates of the two pathways to be anti-correlated (thereby mimicking the opposed excitatory/inhibitory effect of dopamine on the direct and indirect pathways), the model displayed a marked resistance to greater levels of noise within the selection mechanism.    
 
-
-
-\section{Formalities, Footnotes, and Floats}
-
-Use standard APA citation format. Citations within the text should
-include the author's last name and year. If the authors' names are
-included in the sentence, place only the year in parentheses, as in
-\citeA{NewellSimon1972a}, but otherwise place the entire reference in
-parentheses with the authors and year separated by a comma
-\cite{NewellSimon1972a}. List multiple references alphabetically and
-separate them by semicolons
-\cite{ChalnickBillman1988a,NewellSimon1972a}. Use the
-et~al. construction only after listing all the authors to a
-publication in an earlier reference and for citations with four or
-more authors.
-
-
-
-
 \section{Acknowledgments}
 
-Place acknowledgments (including funding information) in a section at
-the end of the paper.
-
-
-\section{References Instructions}
-
-Follow the APA Publication Manual for citation format, both within the
-text and in the reference list, with the following exceptions: (a) do
-not cite the page numbers of any book, including chapters in edited
-volumes; (b) use the same format for unpublished references as for
-published ones. Alphabetize references by the surnames of the authors,
-with single author entries preceding multiple author entries. Order
-references by the same authors by the year of publication, with the
-earliest first.
-
-Use a first level section heading for the reference list. Use a
-hanging indent style, with the first line of the reference flush
-against the left margin and subsequent lines indented by 1/8~inch.
-Below are example references for a conference paper, book chapter,
-journal article, technical report, dissertation, book, and edited
-volume, respectively.
-
-\nocite{ChalnickBillman1988a}
-\nocite{Feigenbaum1963a}
-\nocite{Hill1983a}
-\nocite{OhlssonLangley1985a}
-\nocite{Lewis1978a}
-\nocite{NewellSimon1972a}
-\nocite{ShragerLangley1990a}
-
+This research was suported by a grant from the Office of Naval Research (ONRBAA13-003) entitled ‘‘Training the Mind and Brain: Investigating Individual Differences in the Ability to Learn and Benefit Cognitively from Language Training'' and by a start-up grant from the University of Washington to Andrea Stocco. Simulations and code for this study can be found at the Cognition and Cortical Dynamics Laboratory's GitHib repository: https://github.com/UWCCDL/BGRL.
 
 \bibliographystyle{apacite}
 
