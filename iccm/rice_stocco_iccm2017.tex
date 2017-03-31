@@ -76,13 +76,35 @@ Across both phases, there are six possible stimuli, implemented as symbols that 
 	\begin{center}
 		\includegraphics[width=3.5in]{rl-performance.png}
 	\end{center}
-	\caption{Performance of $Q$-learning model in the PSS task for various levels of temperature $T$} 
+	\caption{Performance of a canonical RL model in the PSS task for various levels of temperature $T$} 
 	\label{RL-agent-performance}
 \end{figure}
 
 Human participants perform close to criterion in the test phase, with an average of about 70\% accuracy in both Choose and Avoid \cite{frank2004carrot, frank2007genetic, stocco2017individual}.
 
 \section{Model Comparisons}
+
+\subsection{General Model Implementation}
+
+The PSS task poses a number of important constraints for the design of RL agents. In this section, we outline these constraints, and how they were addressed in the implementation of our agents. 
+
+The first constrain is that the set of actions available to an agent corresponds to the decision options in the task, that is, the six options $A, B \dots F$. 
+
+The second constraint is that an agent should be able to generalize the $Q$ value of an action to an different state. This is essential to permit generalization of the $Q$-values learned during the training phase (Figure \ref{pss}A and \ref{pss}B) to the new set of pairs in the test phase (Figure \ref{pss}C and \ref{pss}D). A number of mechanisms have been proposed to generalize $Q$-values to new states. In this paper, we have taken the minimalistic approach of associating all actions to a single state $s$, but changing the set of actions available at every trial depending on the options presented. Thus, in a trial where the options $A$ and $B$ are presented, only the actions $a_A$ and $a_B$ will be selectable by the agent.
+
+The third constrain is related to the second, and concerns the relationship between subsequent states in the PSS task. Because of the PSS task consists of a sequence of \emph{independent} trials, the probability of a state $s_{t+1}$ following another state $s_{t}$ does not depend on the action taken $a_t$. Canonical RL algorithms based on temporal difference rely on the environment states to be concatenated in some way, since update term for the $Q$-value of an action taken at state $s_t$ depends on the $Q$-value of the action actions at state $s_{t+1}$ For example, in the $Q$-learning algorithm, the error term depends on the \emph{best action} available at state $S_{t+1}$.
+
+\begin{equation}
+Q_{s_t,a_t} \leftarrow Q_{s_t,a_t} + \alpha [r_{t+1} + \gamma \max(Q(s_{t+1}, a) - Q_{s_t,a_t})]
+\end{equation}
+
+Other algorithms, such as SARSA, similarly rely on the measuring the $Q$-value of the action taken at state $s_t$, i.e. $Q(s_{t+1}, a_{t+1})$. Since the trials are randomized, however, the contribution of the term $Q_{s_{t+1}, a}$ is going to be statistically identical, in the long term, across all states in the long-term. For convenience, in these simulations we set this term to be zero, so that the final learning equation reduces to:
+
+\begin{equation}
+Q_{s_t,a_t} \leftarrow Q_{s_t,a_t} + \alpha [r_{t+1} - Q_{s_t,a_t})]
+\end{equation}
+
+Note that, under these conditions, the $Q$-value of an action $a$ converges to the probability of reward $P(R_t)$ associated with each corresponding option.
 
 \subsection{Standard RL Model}
 
@@ -96,7 +118,7 @@ P(a_i) = \frac{e^{\frac{Q(a_i)}{T}}}{\sum_{j} e^{\frac{Q(a_j)}{T}}}\\.
 
 However, when the Avoid accuracy of the model is inspected, it becomes clear that the model has learned the value of some, but not all, options well. As the value of $T$ begins decreasing, the Avoid accuracy of the model does begin increasing, as the Choose accuracy did. However, the model's Avoid accuracy actually begins decreasing (Figure \ref{RL-agent-performance}, black line) as $T$ continues to decrease. This indicates that for lower values of $T$, the model does not sufficiently explore the ``bad'' options (B, D, and F) during the training phase, and as a consequence, does not value them appropriately. For higher values of $T$, the model does explore both bad and good options approximately equally -- however, it does not value neither good nor bad options appropriately. Additionally, the maximum Avoid accuracy achieved at the point of inflection (less than 70\%) is much lower than the maximum Choose accuracy achieved by the model (which is when the value of $T$ is at a minimum; approximately 90\%), as well as the Choose accuracy at the point of inflection. 
 
-This pattern of Choose and Avoid accuracies over the range of $T$ values tested suggests the existence of an accuracy/bias trade-off -- to become more accurate on average for a given option, the model must bias it's action choices to exploiting that option (in other words, the model increases the quality of it's estimates of the ``good'' options, while becoming more uncertain about the value of the ``bad'' options). Note that this trade-off effect does not manifest in human performance. To visualize the model's trade-off issues, the model's estimate error (defined as the bias towards choosing a given option, with respect to the probability of avoiding the same option) can be plotted as a function of its mean accuracy (Figure \ref{roc}). An ideal PSS task agent would be able to obtain unbiased estimates for every level of accuracy (the vertical dashed black line). However, as made clear by Figure \ref{roc}, the model's estimate error increases as mean accuracy increases--the model becomes more uncertain about it’s ``bad'' options in order to do well when presented with ``good'' options.
+This pattern of Choose and Avoid accuracies over the range of $T$ values tested suggests the existence of an accuracy/bias trade-off -- to become more accurate on average for a given option, the model must bias it's action choices to exploiting that option (in other words, the model increases the quality of it's estimates of the ``good'' options, while becoming more uncertain about the value of the ``bad'' options). This effect can be seen as tendency of RL agents to converge towards overly optimistic estimates, which has been noted in the literature \cite{hasselt2010double}. Note that this trade-off effect does not manifest in human performance. To visualize the model's trade-off issues, the model's estimate error (defined as the bias towards choosing a given option, with respect to the probability of avoiding the same option) can be plotted as a function of its mean accuracy (Figure \ref{roc}). An ideal PSS task agent would be able to obtain unbiased estimates for every level of accuracy (the vertical dashed black line). However, as made clear by Figure \ref{roc}, the model's estimate error increases as mean accuracy increases--the model becomes more uncertain about it’s ``bad'' options in order to do well when presented with ``good'' options.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -125,7 +147,9 @@ The striatum receives input from cortical structures, and subsequently propagate
 
 For the PSS task, although the standard RL model does fairly well overall (approximately 77\%), it's performance does not match that of human participants, especially when considering Avoid accuracy. As the model's results demonstrate, it learns well about one set of options (either the ``good'' options or the ``bad'' options, depending on if it is learning what to choose or what to not choose, respectively), but it does not do well at valuing all options appropriately at all values of $T$. Ideally, the model could instead learn the values of choosing an option and not choosing the alternative simultaneously, allowing it to train once in order to appropriately value all possible options. Superficially, there seems to be an obvious compatibility between the necessity for a RL model to simultaneously estimate the value both the ``chosen" and ``not chosen'' alternatives within a PSS trial, and dopamine's opposing influence on the direct and indirect pathways. Would a model-free RL agent with two ``action pathways'' perform any better than the standard RL model described above?
 
-In order to implement the two-pathway concept, the $Q$-learning agent described above was modified to include an opposite set of ``don't" actions ($\neg A, \neg B, \dots, \neg F$), which, when chosen by the agent, result in the selection of the other option that they are paired with. The original set of actions ($A, B, \dots, F$) can be conceptualized as the set of actions available to be suggested by the direct pathway (restricted by actions possible within the current state), while the ``antiset'' can be conceptualized as the set of actions available to be suggested by the indirect pathway (also restricted by the state). So, if the current trial allows for actions $A$ and $B$, and the agent selects the indirect pathway's action $\neg A$, the result is the selection of option $B$. However, if the current trial allows for actions $A$ and $C$, and the agent selects $\neg A$, the result is the selection of option $C$.
+In order to implement the two-pathway concept, the $Q$-learning agent described above was modified to include an opposite set of ``don't'' actions ($\neg A, \neg B, \dots, \neg F$), which, when chosen by the agent, result in the selection of the other option that they are paired with. Thus, this agent contains a double set of actions and a stores a double set of $Q$-values; in this, it is reminiscent of double $Q$-learning \cite{hasselt2010double,van2016deep}, an algorithm devised to address the overly-optimistic estimates of the original $Q$-learning algorithm \cite{watkins1992q}.
+
+The original set of actions ($A, B, \dots, F$) can be conceptualized as the set of actions available to be suggested by the direct pathway (restricted by actions possible within the current state), while the ``antiset'' can be conceptualized as the set of actions available to be suggested by the indirect pathway (also restricted by the state). So, if the current trial allows for actions $A$ and $B$, and the agent selects the indirect pathway's action $\neg A$, the result is the selection of option $B$. However, if the current trial allows for actions $A$ and $C$, and the agent selects $\neg A$, the result is the selection of option $C$.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -150,7 +174,7 @@ Figure \ref{bg-anti-agent} shows the results of simulations ran with this model.
 	\begin{center}
 		\includegraphics[width=3.5in]{bg-anti-agent-performance.png}
 	\end{center}
-	\caption{Performance of $Q$-learning model in the PSS task for various levels of temperature $T$} 
+	\caption{Performance of the anticorrelated, BG-inspired RL-learning model in the PSS task for various levels of temperature $T$}.
 	\label{bg-anti-agent}
 \end{figure}
 
@@ -160,7 +184,7 @@ However, what is most striking about the anti-correlated BG-plausible model is t
 	\begin{center}
 		\includegraphics[width=3.5in]{resistance-to-noise.png}
 	\end{center}
-	\caption{Performance of $Q$-learning model in the PSS task for various levels of temperature $T$} 
+	\caption{A direct comparison of the mean accuracy of three RL models tested in this paper. \emph{Blue}: Standard RL model; \emph{Red}: BG-inspired model; \emph{Yellow}: Anti-correlated BG-inspired model}. 
 	\label{resistance-to-noise}
 \end{figure}
 
