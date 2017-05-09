@@ -2,7 +2,7 @@ import PSSTask as pt
 import nengo
 import numpy as np
 
-state = pt.PSS_State(('A','B'))
+state = pt.PSS_State(('A','C'))
 
 
 model = nengo.Network()
@@ -17,16 +17,16 @@ with model:
     bg = nengo.networks.actionselection.BasalGanglia(6)
     
     def utilityA(x):
-        return x*0.5 #this is purposely initialized incorrectly in order to demonstrate learning
+        return x*0.8 #this is purposely initialized incorrectly in order to demonstrate learning
     
     def utilityC(x):
         return x*0.7
     
     def utilityE(x):
-        return x*0.6
+        return x*0.5
     
     def utilityF(x):
-        return x*0.4
+        return x*0.5
     
     def utilityD(x):
         return x*0.3
@@ -93,6 +93,15 @@ with model:
     #we didn't choose (since BG is outputs -1 for those, and 0 for the selected)
     #transform replicates singleton bg output value to the # of neurons
     #not sure why it multiples by 4 - play with that
+    
+    #somewhat of an issue (at least when the input is hardcoded as one choice)
+    #when two presented options are initialized with the same utility (i.e 
+    #0.5 for both), BG outputs very similar values for both
+    #so, the "nonchosen" option will not be negated
+    
+    #for example: if you present A, C with their expected utilities intialized
+    #at the proper values (0.8, 0.7), the model will choose A, but will gradually
+    #lower A's expected utility to 0.7...
     nengo.Connection(bg.output[0],errors.ensembles[0].neurons, transform = np.ones((50,1))*4)
     nengo.Connection(bg.output[1],errors.ensembles[1].neurons, transform = np.ones((50,1))*4)
     nengo.Connection(bg.output[2],errors.ensembles[2].neurons, transform = np.ones((50,1))*4)
