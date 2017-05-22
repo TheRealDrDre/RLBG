@@ -1,0 +1,16 @@
+﻿First reviewer:
+-specify performance criterion (response: note that errors receive negative reward, so that minimizing number of bad choices IS inherently a component of good performance)
+-discuss algorithm as TD(0) or just leave as Qlearning? (inclined to leave it as QLearning)
+-HOW TO RESPOND TO THIRD POINT? EXPT?
+-page 2, typo: "taht"
+-fix eqns
+-clarify why it has been termed a Gibbs function (response: rename to softmax action selection, also address reviewer3 “temperature” note here)
+-page 3 "alarming results" note
+
+
+Second reviewer
+-In acknowledgements, typo: "GitHib"
+
+Third reviewer
+-Add background info on RL? (TD, QLearning, temperature, etc)
+
