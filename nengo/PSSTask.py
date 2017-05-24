@@ -193,7 +193,7 @@ class PSS_Task(PSS_Object):
         
     def criterion_reached(self):
         #reached criterion for successful learning
-        training = self.history(['Training'])
+        training = self.history["Training"]
         if len(training) < 60:
             return False
         else:
