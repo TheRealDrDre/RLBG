@@ -124,45 +124,6 @@ with model:
     #only when network is settled do we allow memory of choice to be executed
     #and state to change
     
-    #mem doesn't actually remember
-    
-    #we are pretty close - when enough evidence accumulates, thal inhibition is 
-    #released and thal "makes" a decision
-    #this decision is transmitted to choiceMem for storage
-    #choicemem is usually inhibited by inhb2 to stop drift, but this inhibition
-    #is lifted by thalamus excitation, allowing the thal choice to be 
-    #encoded by choiceMem
-    #the bad part is that the choice being encoded in choiceMem causes the state
-    #rep to be inhibited (which is good), which leads to thal being inhibited
-    #(which is good), which leads to inhb2 being disinhibited (which is bad, because
-    #it then inhibits choiceMem, and our memory disappears)
-    
-    #try making inhb2 weakly inhibitory on choiceMem (but still strong on errors)
-    #lengthen the synapse/divide input
-    choiceMem = nengo.networks.EnsembleArray(n_neurons=50,n_ensembles=6)
-    
-    def recurrent(x):
-        return x
-    
-    nengo.Connection(thal.output,choiceMem.input)
-    nengo.Connection(choiceMem.ensembles[0],choiceMem.ensembles[0],function=recurrent)
-    nengo.Connection(choiceMem.ensembles[1],choiceMem.ensembles[1],function=recurrent)
-    nengo.Connection(choiceMem.ensembles[2],choiceMem.ensembles[2],function=recurrent)
-    nengo.Connection(choiceMem.ensembles[3],choiceMem.ensembles[3],function=recurrent)
-    nengo.Connection(choiceMem.ensembles[4],choiceMem.ensembles[4],function=recurrent)
-    nengo.Connection(choiceMem.ensembles[5],choiceMem.ensembles[5],function=recurrent)
-    
-    inhbState = nengo.Ensemble(n_neurons=75,dimensions=1,radius = 1)
-    nengo.Connection(inhbState,currState.neurons,transform=-np.ones((600,1)))
-    nengo.Connection(inhbState,relay1.neurons,transform=-np.ones((75,1)))
-    nengo.Connection(inhbState,relay2.neurons,transform=-np.ones((75,1)))
-    
-    def collapse(t,x):
-        return sum(x)
-    
-    collapser = nengo.Node(collapse,size_in=6,size_out=1)
-    nengo.Connection(choiceMem.output,collapser)
-    nengo.Connection(collapser,inhbState)
     
     def execute_action(t,thalvec):
         #executes actions and returns the new state and reward
@@ -209,9 +170,7 @@ with model:
                                         #but, this update might happen too quickly, in which case the reward would be subtracted from the utility estimates of the new state
     
     reward = nengo.Node(execute_action,size_in=6)
-    #nengo.Connection(thal.output,reward)
-    
-    
+    nengo.Connection(thal.output,reward)
     
     #calculate error between expected utility and reward
     #blasts each error pop with the reward - we need to inhibit the unchosen ones
@@ -221,37 +180,16 @@ with model:
     errors = nengo.networks.EnsembleArray(n_neurons=50, n_ensembles=6)
     nengo.Connection(reward,errors.input,transform=-1)
     
+    inhbrelay1 = nengo.Ensemble(n_neurons=75,dimensions=6)
+    nengo.Connection(thal.output,inhbrelay1)
+    nengo.Connection(inhbrelay1,relay1.neurons,function=sum,transform=-np.ones((75,1)))
+    nengo.Connection(inhbrelay1,currState.neurons,function=sum,transform=-np.ones((600,1)))
+
     
     #cheat a bit and set some stimulus to keep them active
     inhb2Stim = nengo.Node([1])
     inhb2 = nengo.networks.EnsembleArray(n_neurons=50, n_ensembles=6)
     nengo.Connection(inhb2Stim,inhb2.input, transform = np.ones((6,1)))
-    
-    #connect inhb2 to choiceMem
-    #stops choiceMem from drifting when no decision is made
-    #when decision is made, thal inhibits inhb2, and inhb2's inhibition is released
-    #on choiceMem, allowing it to remember the choice
-    nengo.Connection(inhb2.output[0],choiceMem.ensembles[0].neurons,transform=-np.ones((50,1)))
-    nengo.Connection(inhb2.output[1],choiceMem.ensembles[1].neurons,transform=-np.ones((50,1)))
-    nengo.Connection(inhb2.output[2],choiceMem.ensembles[2].neurons,transform=-np.ones((50,1)))
-    nengo.Connection(inhb2.output[3],choiceMem.ensembles[3].neurons,transform=-np.ones((50,1)))
-    nengo.Connection(inhb2.output[4],choiceMem.ensembles[4].neurons,transform=-np.ones((50,1)))
-    nengo.Connection(inhb2.output[5],choiceMem.ensembles[5].neurons,transform=-np.ones((50,1)))
-    
-    #while choiceMem is remembering a choice, it is inhibiting the state representation
-    #this in turn causes thalamus to be inhibited, allowing inhb2 to inhibit choiceMem again
-    #that would cause us to lose our memory
-    #instead, choiceMem has a strong inhibitory feedback connection to inhb2
-    #so, when it is enabled to remember a choice, this inhibits inhb2, allowing
-    #the memory to be maintained
-    #has the additional benefit of keeping the error channel for that choice open
-    nengo.Connection(choiceMem.output[0],inhb2.ensembles[0].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[1],inhb2.ensembles[1].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[2],inhb2.ensembles[2].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[3],inhb2.ensembles[3].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[4],inhb2.ensembles[4].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[5],inhb2.ensembles[5].neurons,transform=-np.ones((50,1))*10)
-
     
     #connect inhb to error pops so they can tonically inhibit them
     nengo.Connection(inhb2.output[0],errors.ensembles[0].neurons, transform = -np.ones((50,1))*4)
