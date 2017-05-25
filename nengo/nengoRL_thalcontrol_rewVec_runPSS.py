@@ -81,7 +81,7 @@ with model:
         
         chosen = actionvec.index(max(actionvec))
         
-        action = task.ACTIONS[0]
+        action = task.ACTIONS[chosen]
         
         if task.is_action(action):
             if action.startswith('-'):
@@ -103,6 +103,7 @@ with model:
             
             task.state = task.next_state()
             print task.state
+            print action
             rewVec = [0,0,0,0,0,0]
             rewVec[chosen] = r
             return (rewVec) ### here we return just the reward I think - calling next_state in the line above will update the current state.
@@ -168,6 +169,8 @@ with model:
     nengo.Connection(errors.ensembles[3], connF.learning_rule)
     nengo.Connection(errors.ensembles[4], connD.learning_rule)
     nengo.Connection(errors.ensembles[5], connB.learning_rule)
+    
+    
     
     
     
