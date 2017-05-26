@@ -160,6 +160,9 @@ with model:
     def collapse(t,x):
         return sum(x)
     
+    def passthrough(t,x):
+        return x
+    
     collapser = nengo.Node(collapse,size_in=6,size_out=1)
     nengo.Connection(choiceMem.output,collapser)
     nengo.Connection(collapser,inhbState)
@@ -237,6 +240,7 @@ with model:
     nengo.Connection(inhb2.output[3],choiceMem.ensembles[3].neurons,transform=-np.ones((50,1)))
     nengo.Connection(inhb2.output[4],choiceMem.ensembles[4].neurons,transform=-np.ones((50,1)))
     nengo.Connection(inhb2.output[5],choiceMem.ensembles[5].neurons,transform=-np.ones((50,1)))
+
     
     #while choiceMem is remembering a choice, it is inhibiting the state representation
     #this in turn causes thalamus to be inhibited, allowing inhb2 to inhibit choiceMem again
@@ -245,12 +249,12 @@ with model:
     #so, when it is enabled to remember a choice, this inhibits inhb2, allowing
     #the memory to be maintained
     #has the additional benefit of keeping the error channel for that choice open
-    nengo.Connection(choiceMem.output[0],inhb2.ensembles[0].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[1],inhb2.ensembles[1].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[2],inhb2.ensembles[2].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[3],inhb2.ensembles[3].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[4],inhb2.ensembles[4].neurons,transform=-np.ones((50,1))*10)
-    nengo.Connection(choiceMem.output[5],inhb2.ensembles[5].neurons,transform=-np.ones((50,1))*10)
+    #nengo.Connection(choiceMem.output[0],inhb2.ensembles[0].neurons,transform=-np.ones((50,1))*5)
+    #nengo.Connection(choiceMem.output[1],inhb2.ensembles[1].neurons,transform=-np.ones((50,1))*5)
+    #nengo.Connection(choiceMem.output[2],inhb2.ensembles[2].neurons,transform=-np.ones((50,1))*5)
+    #nengo.Connection(choiceMem.output[3],inhb2.ensembles[3].neurons,transform=-np.ones((50,1))*5)
+    #nengo.Connection(choiceMem.output[4],inhb2.ensembles[4].neurons,transform=-np.ones((50,1))*5)
+    #nengo.Connection(choiceMem.output[5],inhb2.ensembles[5].neurons,transform=-np.ones((50,1))*5)
 
     
     #connect inhb to error pops so they can tonically inhibit them
@@ -298,10 +302,61 @@ with model:
     nengo.Connection(errors.ensembles[5], connB.learning_rule)
     
     
+    #so right now it works okay, but the inhibitory/excitatory balance in 
+    #choiceMem is highly dependent on the nengo seed (it seems) - sometimes
+    #the initial fuzzyness enables some memory that it then can't "shake"
+    
+    #want to try to keep inhb2 connection to choiceMem because I like that
+    #it simultaneously enables learning on that option while maintaining the 
+    #memory of that choice
+    
+    #try 2 things:
+    #1. connect currState to choiceMem - the current state should support the
+    #memory of the choice made (idea here is that inhb2 input is strong enough
+    #mask currState, and thal input pushes it over the top)
+    
+    #2. place ensemble between choiceMem and inhb2 that only responds when
+    #choiceMem is close to 1 - this will allow inhb2 to inhibit choiceMem
+    #strongly initially without worrying about choiceMem drift forcing feedback
+    #loop
+    
+    relay3 = nengo.networks.EnsembleArray(n_neurons=75,n_ensembles=6)
+    
+    relay3.ensembles[0].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
+    relay3.ensembles[1].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
+    relay3.ensembles[2].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
+    relay3.ensembles[3].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
+    relay3.ensembles[4].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
+    relay3.ensembles[5].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
+    
+    relay3.ensembles[0].encoders = nengo.dists.Choice([[1]])
+    relay3.ensembles[1].encoders = nengo.dists.Choice([[1]])
+    relay3.ensembles[2].encoders = nengo.dists.Choice([[1]])
+    relay3.ensembles[3].encoders = nengo.dists.Choice([[1]])
+    relay3.ensembles[4].encoders = nengo.dists.Choice([[1]])
+    relay3.ensembles[5].encoders = nengo.dists.Choice([[1]])
+    
+    relay3.ensembles[0].eval_points = nengo.dists.Uniform(0.25,1.)
+    relay3.ensembles[1].eval_points = nengo.dists.Uniform(0.25,1.)
+    relay3.ensembles[2].eval_points = nengo.dists.Uniform(0.25,1.)
+    relay3.ensembles[3].eval_points = nengo.dists.Uniform(0.25,1.)
+    relay3.ensembles[4].eval_points = nengo.dists.Uniform(0.25,1.)
+    relay3.ensembles[5].eval_points = nengo.dists.Uniform(0.25,1.)
+    
+    #this seems to work as is, but let's try making it so relay3 only responds 
+    #when choiceMem is high
+    nengo.Connection(choiceMem.output,relay3.input)
+    nengo.Connection(relay3.output[0],inhb2.ensembles[0].neurons,transform=-np.ones((50,1))*5)
+    nengo.Connection(relay3.output[1],inhb2.ensembles[1].neurons,transform=-np.ones((50,1))*5)
+    nengo.Connection(relay3.output[2],inhb2.ensembles[2].neurons,transform=-np.ones((50,1))*5)
+    nengo.Connection(relay3.output[3],inhb2.ensembles[3].neurons,transform=-np.ones((50,1))*5)
+    nengo.Connection(relay3.output[4],inhb2.ensembles[4].neurons,transform=-np.ones((50,1))*5)
+    nengo.Connection(relay3.output[5],inhb2.ensembles[5].neurons,transform=-np.ones((50,1))*5)
     
     
     
     
-
+    
+    
     
     
