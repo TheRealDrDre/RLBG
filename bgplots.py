@@ -21,12 +21,15 @@ def plot_results(results, param_values):
     ax.set_ylabel("Mean Accuracy")
     ax.set_xticks([1,2])
     ax.set_xticklabels(["Choose", "Avoid"])
+    #fig.colorbar(ax, param_values)
+    plt.legend(["T = %.2f" % x for x in param_values], loc="best")
     plt.show()
 
 def plot_rocs(result_list, color_list, legend=None, title=None):
     plt.axis([-0.025, 0.30, 0.5, 0.85])
     plt.ylabel("Mean accuracy")
-    plt.xlabel("Estimate Error")
+    plt.xlabel("Estimate bias")
+    plt.title("Accuracy vs. Bias")
     
     tops = []
     

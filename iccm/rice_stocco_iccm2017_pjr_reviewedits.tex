@@ -72,13 +72,6 @@ A situation in which this circumstance arises is when modeling a well-known psyc
 
 Across both phases, there are six possible stimuli, implemented as symbols that are difficult to describe (in order to make memorization of each stimulus’ history of success more difficult). Each stimulus carries an intrinsic probability of success, ranging linearly from 20\% to 80\%. During the training phase, the stimuli are presented a fixed pairs, for a total of three sets: $(A, B)$  $(C,D)$, and $(E, F)$, with associated reward probabilities of $(80\%, 20\%)$, $(70\%, 30\%)$, and $(60\%, 40\%)$, respectively. Participants receive feedback regarding the outcome of their decision directly after making a selection, and are instructed to attempt to maximize their success by choosing what they believe to be the ``correct'' option on each trial. {\color{red} Responses that are probabilistically determined to be errors are associated with negative reward (i.e. ``feedback''), while those deemed correct are associated with positive reward, with the consequence that a component of ``good'' performance is avoiding ``bad'' (i.e. low probability of success) choices.} Once a participant's performance reached a predefined criterion (different for each pair: 65\%, 60\%, and 50\% probability of choosing the higher valued option for the sets of $(A, B)$  $(C,D)$, and $(E, F)$, respectively), the test phase begins. During the test phase, participants are shown all possible combinations of the six stimuli(fifteen total, four times each, for a total of 60 trials), and do not receive feedback upon selection. From the test phase, two different measures are calculated: the participant's \emph{Choose accuracy}, that is, the probability of choosing the highest valued alternative (A; 80\% reward probability) when it is paired with any other alternative, and the participant's \emph{Avoid accuracy}, {\color{red} that} is, the probability of not choosing the lowest valued alternative (B, 20\% reward probability) when it is paired with any other alternative (excepting A). These measures can generally be interpreted to be the participant's tendencies to pursue reward and avoid punishment, respectively.
 
-\begin{figure}[ht]
-	\begin{center}
-		\includegraphics[width=3.5in]{rl-performance.png}
-	\end{center}
-	\caption{Performance of a canonical RL model in the PSS task for various levels of temperature $T$. \emph{Grey}: Choose accuracy; \emph{Black}: Avoid accuracy; \emph{Blue}: Mean accuracy.} 
-	\label{RL-agent-performance}
-\end{figure}
 
 Human participants perform close to criterion in the test phase, with an average of about 70\% accuracy in both Choose and Avoid accuracies \cite{frank2004carrot, frank2007genetic, stocco2017individual}.
 
@@ -106,21 +99,34 @@ Q_{s_t,a_t} \leftarrow Q_{s_t,a_t} + \alpha [r_{t+1} - Q_{s_t,a_t})]
 
 Note that, under these conditions, the $Q$-value of an action $a$ converges to the probability of reward $P(R_t)$ associated with each corresponding option.
 
-\subsection{Standard RL Model}
 
 %When the participant in the PSS task is modeled as a $Q$-learning agent %that employs a policy based on the {\color{red} softmax action selection %function:}
 
-{\color{red} The participant in the PSS task was modeled as a $Q$-learning agent that selected an action in response to a given state by utilizing the softmax action selection function:}
+{\color{red} The participant's policy in the PSS task was modeled as as a Gibbs softmax action selection function:}
 
 \begin{equation}
 P(a_i) = \frac{e^{\frac{Q(a_i)}{T}}}{\sum_{j} e^{\frac{Q(a_j)}{T}}}\\.
 \end{equation}
 
-{\color{red} Under this mechanism, the probability of the agent choosing a given action increases proportionally with the action's value $Q(s,a)$, divided by a parameter $T$, defined as the \emph{temperature} of the system. Higher values of $T$ inject more noise into the action selection process, causing action selection to be less deterministic. At relatively high values of $T$, where the estimated utility of actions is not strongly considered by the action selection mechanism, the model's Choose and Avoid accuracies are approximately equal, revealing that the model has estimated the value of choosing A, when presented with any option other than B, as approximately equal to the value of \emph{not} choosing B, when presented with any option other than A. This is desired model behavior - the model should estimate that choosing A is equal to \emph{not} choosing B. However, as a consequence of the high level of noise in the action selection process, the model has not estimated the actual value of these two actions appropriately (relative to the value of all other options), as indicated by the low Choose and Avoid accuracies. 
+{\color{red} Under this mechanism, the probability of the agent choosing a given action increases proportionally with the action's value $Q(s,a)$, divided by a parameter $T$, defined as the \emph{temperature} of the system. Higher values of $T$ inject more noise into the action selection process, causing action selection to be less deterministic.
+
+\subsection{Standard RL Model}
+
+At relatively high values of $T$, where the estimated utility of actions has a smaller effect on the action selection mechanism, the RL model's Choose and Avoid accuracies are approximately equal, revealing that the model has estimated the value of choosing $A$, when presented with any option other than $B$, as approximately equal to the value of \emph{not} choosing $B$, when presented with any option other than $A$. This is desired model behavior--the model should estimate that choosing $A$ is equal to \emph{not} choosing $B$. However, as a consequence of the high level of noise in the action selection process, the model has not estimated the actual value of these two actions appropriately (relative to the value of all other options), as indicated by the low Choose and Avoid accuracies \ref{RL-agent-performance}. 
 
 On the other hand, when the value of $T$ is low, and the action selection process is largely dependent on the estimated $Q$-values of the actions associated with the current state, some alarming results occur.} 
 
 Specifically, the model learns the value of of the desirable options $A$, $C$, and $E$ well, reflected as a {\color{red} increasing} Choose accuracy as $T$ {\color{red} decreases} (Figure \ref{RL-agent-performance}, grey line). This is the expected behavior of the model -- {\color{red} as a deterministic action selection process based on the estimated value of actions allows exploration} to suggest relatively ``better'' options, the model quickly switches to exploiting them, learning their true values well in the process \footnote{Although here we report the results obtained using the {\color{red} softmax function}, the same results have been replicated with another common policy that balances exploration and exploitation, the $\epsilon$-greedy policy.}. 
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=3.5in]{rl-performance.png}
+	\end{center}
+	\caption{Performance of a canonical RL model in the PSS task for various levels of temperature $T$. \emph{Grey}: Choose accuracy; \emph{Black}: Avoid accuracy; \emph{Blue}: Mean accuracy.} 
+	\label{RL-agent-performance}
+\end{figure}
+
+
 
 However, when the Avoid accuracy of the model is inspected, it becomes clear that the model has learned the value of some, but not all, options well. As the value of $T$ begins {\color{red} decreasing}, the Avoid accuracy of the model does begin {\color{red} increasing}, as the Choose accuracy did. However, the model's Avoid accuracy actually begins to decrease (Figure \ref{RL-agent-performance}, black line) as $T$ continues to {\color{red} decrease}. This indicates that for lower values of $T$, the model does not sufficiently explore the ``bad'' options (B, D, and F) during the training phase, and as a consequence, does not value them appropriately. For higher values of $T$, the model does explore both bad and good options approximately equally -- however, it does not value neither good nor bad options appropriately. Additionally, the maximum Avoid accuracy achieved at the point of inflection (less than 70\%) is much lower than the maximum Choose accuracy achieved by the model (which is when the value of $T$ is at a minimum; approximately 90\%), as well as the Choose accuracy at the point of inflection. 
 
