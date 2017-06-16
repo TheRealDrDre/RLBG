@@ -1,0 +1,317 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{%
+Alexander%
+\ \BBA{} Crutcher%
+}{%
+Alexander%
+\ \BBA{} Crutcher%
+}{%
+{\protect\APACyear{1990}}%
+}]{%
+alexander1990function}%
+\APACinsertmetastar{%
+alexander1990function}%
+Alexander, G\BPBI E.%
+\BCBT{}\ \BBA{} Crutcher, M\BPBI D.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1990}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Functional architecture of basal ganglia circuits: Neural
+  substrates of parallel processing}{Functional architecture of basal ganglia
+  circuits: Neural substrates of parallel processing}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Trends in neurosciences}{13}{}{266--271}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Frank%
+, Moustafa%
+, Haughey%
+, Curran%
+\BCBL{}\ \BBA{} Hutchison%
+}{%
+Frank%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{2007}}%
+}]{%
+frank2007genetic}%
+\APACinsertmetastar{%
+frank2007genetic}%
+Frank, M\BPBI J.%
+, Moustafa, A\BPBI A.%
+, Haughey, H\BPBI M.%
+, Curran, T.%
+\BCBL{}\ \BBA{} Hutchison, K\BPBI E.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2007}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Genetic triple dissociation reveals multiple roles for
+  dopamine in reinforcement learning}{Genetic triple dissociation reveals
+  multiple roles for dopamine in reinforcement learning}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Proceedings of the National Academy of
+  Sciences}{104}{41}{16311--16316}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Frank%
+, Seeberger%
+\BCBL{}\ \BBA{} O'Reilly%
+}{%
+Frank%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{2004}}%
+}]{%
+frank2004carrot}%
+\APACinsertmetastar{%
+frank2004carrot}%
+Frank, M\BPBI J.%
+, Seeberger, L\BPBI C.%
+\BCBL{}\ \BBA{} O'Reilly, R\BPBI C.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{By carrot or by stick: cognitive reinforcement learning
+  in parkinsonism}{By carrot or by stick: cognitive reinforcement learning in
+  parkinsonism}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Science}{306}{5703}{1940--1943}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Hasselt%
+}{%
+Hasselt%
+}{%
+{\protect\APACyear{2010}}%
+}]{%
+hasselt2010double}%
+\APACinsertmetastar{%
+hasselt2010double}%
+Hasselt, H\BPBI V.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2010}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Double Q-learning}{Double q-learning}.\BBCQ{}
+\newblock
+\BIn{} \APACrefbtitle{Advances in Neural Information Processing
+  Systems}{Advances in neural information processing systems}\ (\BPGS\
+  2613--2621).
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Schultz%
+}{%
+Schultz%
+}{%
+{\protect\APACyear{2000}}%
+}]{%
+schultz2000multuple}%
+\APACinsertmetastar{%
+schultz2000multuple}%
+Schultz, W.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2000}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Multiple reward signals in the brain}{Multiple reward
+  signals in the brain}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Nature Reviews Neuroscience}{1}{}{199--207}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Schultz%
+, Dayan%
+\BCBL{}\ \BBA{} Montague%
+}{%
+Schultz%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{1997}}%
+}]{%
+schultz1997neural}%
+\APACinsertmetastar{%
+schultz1997neural}%
+Schultz, W.%
+, Dayan, P.%
+\BCBL{}\ \BBA{} Montague, P\BPBI R.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1997}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{A neural substrate of prediction and reward}{A neural
+  substrate of prediction and reward}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Science}{275}{}{1593--1599}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Smith%
+, Beyan%
+, Shrink%
+\BCBL{}\ \BBA{} Bolam%
+}{%
+Smith%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{1998}}%
+}]{%
+smith1998microcircuitry}%
+\APACinsertmetastar{%
+smith1998microcircuitry}%
+Smith, Y.%
+, Beyan, M\BPBI D.%
+, Shrink, E.%
+\BCBL{}\ \BBA{} Bolam, J\BPBI P.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1998}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Microcircuitry of the direct and indirect pathways of the
+  basal ganglia}{Microcircuitry of the direct and indirect pathways of the
+  basal ganglia}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Neuroscience}{86}{}{353--388}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Stocco%
+\ \protect\BOthers{.}}{%
+Stocco%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{2017}}%
+}]{%
+stocco2017individual}%
+\APACinsertmetastar{%
+stocco2017individual}%
+Stocco, A.%
+, Murray, N\BPBI L.%
+, Yamasaki, B\BPBI L.%
+, Renno, T\BPBI J.%
+, Nguyen, J.%
+\BCBL{}\ \BBA{} Prat, C\BPBI S.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Individual Differences in the Simon Effect are
+  Underpinned By Differences in Competitive Dynamics of the Basal Ganglia: An
+  Experimental Verification and a Computational Model}{Individual differences
+  in the simon effect are underpinned by differences in competitive dynamics of
+  the basal ganglia: An experimental verification and a computational
+  model}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Cognition}{164}{}{31--45}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Sutton%
+}{%
+Sutton%
+}{%
+{\protect\APACyear{1988}}%
+}]{%
+sutton1988learning}%
+\APACinsertmetastar{%
+sutton1988learning}%
+Sutton, R\BPBI S.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1988}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Learning to predict by the methods of temporal
+  differences}{Learning to predict by the methods of temporal
+  differences}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Machine Learning}{3}{}{9--44}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Sutton%
+\ \BBA{} Barto%
+}{%
+Sutton%
+\ \BBA{} Barto%
+}{%
+{\protect\APACyear{1998}}%
+}]{%
+sutton1998reinforcement}%
+\APACinsertmetastar{%
+sutton1998reinforcement}%
+Sutton, R\BPBI S.%
+\BCBT{}\ \BBA{} Barto, A\BPBI G.%
+%
+\unskip\
+\newblock
+\APACrefYear{1998}.
+\newblock
+\APACrefbtitle{Reinforcement learning: An introduction }{Reinforcement
+  learning: An introduction }.
+\newblock
+\APACaddressPublisher{Cambrdige, MA}{MIT Press}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Van~Hasselt%
+, Guez%
+\BCBL{}\ \BBA{} Silver%
+}{%
+Van~Hasselt%
+\ \protect\BOthers{.}}{%
+{\protect\APACyear{2016}}%
+}]{%
+van2016deep}%
+\APACinsertmetastar{%
+van2016deep}%
+Van~Hasselt, H.%
+, Guez, A.%
+\BCBL{}\ \BBA{} Silver, D.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2016}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Deep Reinforcement Learning with Double Q-Learning.}{Deep
+  reinforcement learning with double q-learning.}\BBCQ{}
+\newblock
+\BIn{} \APACrefbtitle{AAAI}{Aaai}\ (\BPGS\ 2094--2100).
+\PrintBackRefs{\CurrentBib}
+
+\bibitem[\protect\citeauthoryear{%
+Watkins%
+\ \BBA{} Dayan%
+}{%
+Watkins%
+\ \BBA{} Dayan%
+}{%
+{\protect\APACyear{1992}}%
+}]{%
+watkins1992q}%
+\APACinsertmetastar{%
+watkins1992q}%
+Watkins, C\BPBI J.%
+\BCBT{}\ \BBA{} Dayan, P.%
+%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1992}{}{}.
+\newblock
+\BBOQ{}\APACrefatitle{Q-learning}{Q-learning}.\BBCQ{}
+\newblock
+\APACjournalVolNumPages{Machine learning}{8}{3-4}{279--292}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
