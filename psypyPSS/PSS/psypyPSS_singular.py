@@ -1,5 +1,6 @@
 import os
 import pickle
+import random
 from psychopy import visual, event, core
 from psychopy.visual import ShapeStim
 
@@ -19,6 +20,7 @@ import PSSTask as pt
 task = pt.PSS_Task()
 
 trials = [element for tupl in task.TRAINING_BLOCK for element in tupl]
+random.shuffle(trials)
 
 
 #create a visual window
