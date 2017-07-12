@@ -142,12 +142,16 @@ class PSS_Task(PSS_Object):
     #object implementing PSS task
     CRITERION = {"AB" : 0.65, "CD" : 0.60, "EF" : 0.50}
     
-    TRAINING_BLOCK = ((("A", "B"),) * 1 +
-                      (("B", "A"),) * 1 +
-                      (("C", "D"),) * 1 +
-                      (("D", "C"),) * 1 +
-                      (("E", "F"),) * 1 +
-                      (("F", "E"),) * 1)
+    #hiragana mapping:
+    #https://fontzone.net/font-details/hiragana
+    #under 'details' tab
+    
+    TRAINING_BLOCK = ((("a", "b"),) * 1 +
+                      (("b", "a"),) * 1 +
+                      (("c", "d"),) * 1 +
+                      (("d", "c"),) * 1 +
+                      (("e", "f"),) * 1 +
+                      (("f", "e"),) * 1)
     
     TEST_BLOCK = ((("A", "B"),) * 2 + (("B", "A"),) * 2 +
                   (("A", "C"),) * 2 + (("C", "A"),) * 2 +

@@ -1,8 +1,18 @@
 import os
+import pickle
 from psychopy import visual, event, core
 from psychopy.visual import ShapeStim
 
-os.chdir('C:\\Users\\ausma_000\\Documents\\gp\\RLBG\\psypyPSS\\PSS')
+fname = 'test'
+
+fname = fname+'.pickle'
+
+PSSdir = 'C:\\Users\\ausma_000\\Documents\\gp\\RLBG\\psypyPSS\\PSS'
+dataDir = 'C:\\Users\\ausma_000\\Desktop\\PSSdata\\singular'
+
+hiragana = 'C:\\Users\\ausma_000\\Desktop\\PSSdata\\fonts\\HIRAGANA.TTF'
+
+os.chdir(PSSdir)
 
 import PSSTask as pt
 
@@ -12,14 +22,20 @@ trials = [element for tupl in task.TRAINING_BLOCK for element in tupl]
 
 
 #create a visual window
-win = visual.Window([400,400],winType='pyglet')
+#win = visual.Window([400,400],winType='pyglet',fullscr = True, monitor = None)
+win = visual.Window([1440,960],winType='pyglet',fullscr = True, monitor = None)
+
+
 
 vert = visual.Line(win,start = (0,-0.1),end = (0,0.1),lineWidth=2)
 horz = visual.Line(win,start = (-0.1,0),end = (0.1,0),lineWidth=2)
 
 stimulus = visual.TextStim(win, text = '')
-prompt1 = visual.TextStim(win, text = 'Take it!', pos = (-.5, 0))
-prompt2 = visual.TextStim(win, text = 'Leave it!', pos = (.5, 0))
+stimulus.fontFiles = [hiragana]
+stimulus.font = 'HIRAGANA'
+prompt = visual.TextStim(win, text = '?')
+#prompt1 = visual.TextStim(win, text = 'Take it!', pos = (-.5, 0))
+#prompt2 = visual.TextStim(win, text = 'Leave it!', pos = (.5, 0))
 rew = visual.TextStim(win, text = '')
 
 keys = list()
@@ -46,8 +62,9 @@ for t in trials:
     win.flip()
     core.wait(2.0)
     
-    prompt1.draw()
-    prompt2.draw()
+    #prompt1.draw()
+    #prompt2.draw()
+    prompt.draw()
     win.callOnFlip(promptOnset.append,exptTime.getTime())
     win.flip()
     
@@ -92,5 +109,16 @@ print(fixOnset)
 print(stimOnset)
 print(promptOnset)
 print(rewOnset)
+
+os.chdir(dataDir)
+
+with open(fname, 'wb') as f:
+    pickle.dump([keys, stim, rewards, fixOnset, stimOnset, promptOnset, rewOnset], f)
+
+
+#to load the data:
+#with open('test.pickle','rb') as f:
+#    keys, stim, rewards, fixOnset, stimOnset, promptOnset, rewOnset = pickle.load(f)
+
 
 
