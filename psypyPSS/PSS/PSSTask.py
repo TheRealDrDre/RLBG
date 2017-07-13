@@ -5,12 +5,12 @@ from collections import deque
 
 class PSS_Object():
     #generic object for PSS task components
-    ACTIONS = ('A','C','E','F','D','B')
+    ACTIONS = ('a','c','e','f','d','b')
     NEG_ACTIONS = tuple('-'+x for x in ACTIONS)
-    REW_TABLE = {'A': 0.8, 'C': 0.7, 'E': 0.6,
-                 'F': 0.4, 'D': 0.3, 'B': 0.2}
-    ACT_IDX = {'A': -3, 'C': -2, 'E': -1,
-               'F': 1, 'D': 2, 'B': 3}
+    REW_TABLE = {'a': 0.8, 'c': 0.7, 'e': 0.6,
+                 'f': 0.4, 'd': 0.3, 'b': 0.2}
+    ACT_IDX = {'a': -3, 'c': -2, 'e': -1,
+               'f': 1, 'd': 2, 'b': 3}
     
     def is_action(self, action):
         #An action is only valid if it belongs to the list of possible actions
@@ -41,7 +41,7 @@ class PSS_State(PSS_Object):
     #a state in the PSS Object
     #state consists of two possible options to choose from
     
-    def __init__(self, options = ('A','B')):
+    def __init__(self, options = ('a','b')):
         #inits a state, with default options being A, B
         if self.is_options(options):
             self.options = options
@@ -140,7 +140,7 @@ class PSS_Decision(PSS_Object):
     
 class PSS_Task(PSS_Object):
     #object implementing PSS task
-    CRITERION = {"AB" : 0.65, "CD" : 0.60, "EF" : 0.50}
+    CRITERION = {"ab" : 0.65, "cd" : 0.60, "ef" : 0.50}
     
     #hiragana mapping:
     #https://fontzone.net/font-details/hiragana
@@ -203,11 +203,11 @@ class PSS_Task(PSS_Object):
         else:
             if len(training) > 60:
                 training = training[-60:]
-            ab = self.calculate_accuracy(training, 'A')
-            cd = self.calculate_accuracy(training, 'C')
-            ef = self.calculate_accuracy(training, 'E')
+            ab = self.calculate_accuracy(training, 'a')
+            cd = self.calculate_accuracy(training, 'c')
+            ef = self.calculate_accuracy(training, 'e')
             
-            if ab >= self.CRITERION['AB'] and cd >= self.CRITERION['CD'] and ef >= self.CRITERION['EF']:
+            if ab >= self.CRITERION['ab'] and cd >= self.CRITERION['cd'] and ef >= self.CRITERION['ef']:
                 return True
             else:
                 return False
@@ -263,8 +263,8 @@ class PSS_Task(PSS_Object):
         #returns choose/avoid accuracies
         test = self.history["Test"]
         if len(test) >= 60:
-            return (self.calculate_accuracy(test, option = 'A', exclude = 'B'),
-                    self.calculate_accuracy(test, option = 'B', exclude = 'A'))
+            return (self.calculate_accuracy(test, option = 'a', exclude = 'b'),
+                    self.calculate_accuracy(test, option = 'b', exclude = 'a'))
 
 class PSS_Agent(PSS_Object):
     """An abstract agent. Can't do anything by itself, and needs to be setup properly"""
