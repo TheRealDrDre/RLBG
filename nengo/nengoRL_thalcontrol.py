@@ -191,26 +191,29 @@ with model:
                     #a specific action
                     action = [x for x in task.state.options if x is not action[-1]][0]
                 
-                r = None
-                r = task.get_reward(action)
-            
-                #currently learns through training and test phases - if it didn't
-                #get reward in test phase, would begin to lower estimates of options
-                #if task.phase is "Training":
-                #    r = task.get_reward(action)
+                once = 0
+                while once==0:
                 
-                #update history
-                #d = PSS_Decision(task.state, action, reward = r)
-                #task.history[task.phase].append(d)
+                    r = None
+                    r = task.get_reward(action)
             
-                task.state = task.next_state()
-                print task.state
-                print action
-                rewVec = [0,0,0,0,0,0]
-                rewVec[chosen] = r
-                return (rewVec) ### here we return just the reward I think - calling next_state in the line above will update the current state.
+                    #currently learns through training and test phases - if it didn't
+                    #get reward in test phase, would begin to lower estimates of options
+                    #if task.phase is "Training":
+                    #    r = task.get_reward(action)
+                
+                    #update history
+                    #d = PSS_Decision(task.state, action, reward = r)
+                    #task.history[task.phase].append(d)
+            
+                    task.state = task.next_state()
+                    print task.state
+                    print action
+                    rewVec = [0,0,0,0,0,0]
+                    rewVec[chosen] = r
+                    return (rewVec) ### here we return just the reward I think - calling next_state in the line above will update the current state.
                                         #but, this update might happen too quickly, in which case the reward would be subtracted from the utility estimates of the new state
-    
+                    once = 1
     reward = nengo.Node(execute_action,size_in=6)
     #nengo.Connection(thal.output,reward)
     
@@ -315,13 +318,14 @@ with model:
     #memory of the choice made (idea here is that inhb2 input is strong enough
     #mask currState, and thal input pushes it over the top)
     
-    #2. place ensemble between choiceMem and inhb2 that only responds when
+    #DONE2. place ensemble between choiceMem and inhb2 that only responds when
     #choiceMem is close to 1 - this will allow inhb2 to inhibit choiceMem
     #strongly initially without worrying about choiceMem drift forcing feedback
     #loop
     
     relay3 = nengo.networks.EnsembleArray(n_neurons=75,n_ensembles=6)
     
+    #stops little choiceMem "hiccups" and fast memory decay
     relay3.ensembles[0].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
     relay3.ensembles[1].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
     relay3.ensembles[2].intercepts = nengo.dists.Exponential(0.3,0.25,1.);
@@ -353,10 +357,32 @@ with model:
     nengo.Connection(relay3.output[4],inhb2.ensembles[4].neurons,transform=-np.ones((50,1))*5)
     nengo.Connection(relay3.output[5],inhb2.ensembles[5].neurons,transform=-np.ones((50,1))*5)
     
+    #okay, now we need a relay between choiceMem and reward that is only 
+    #activated when the rest of the network is settled
     
+    #when thalamus is zero relay4 can be active
+    relay4 = nengo.networks.EnsembleArray(n_neurons=75,n_ensembles=6)
     
+    #relay4.ensembles[0].intercepts = nengo.dists.Exponential(0.3,0.1,1.);
+    #relay4.ensembles[1].intercepts = nengo.dists.Exponential(0.3,0.1,1.);
+    #relay4.ensembles[2].intercepts = nengo.dists.Exponential(0.3,0.1,1.);
+    #relay4.ensembles[3].intercepts = nengo.dists.Exponential(0.3,0.1,1.);
+    #relay4.ensembles[4].intercepts = nengo.dists.Exponential(0.3,0.1,1.);
+    #relay4.ensembles[5].intercepts = nengo.dists.Exponential(0.3,0.1,1.);
     
+    #relay4.ensembles[0].encoders = nengo.dists.Choice([[1]])
+    #relay4.ensembles[1].encoders = nengo.dists.Choice([[1]])
+    #relay4.ensembles[2].encoders = nengo.dists.Choice([[1]])
+    #relay4.ensembles[3].encoders = nengo.dists.Choice([[1]])
+    #relay4.ensembles[4].encoders = nengo.dists.Choice([[1]])
+    #relay4.ensembles[5].encoders = nengo.dists.Choice([[1]])
     
+    #relay4.ensembles[0].eval_points = nengo.dists.Uniform(0.1,1.)
+    #relay4.ensembles[1].eval_points = nengo.dists.Uniform(0.1,1.)
+    #relay4.ensembles[2].eval_points = nengo.dists.Uniform(0.1,1.)
+    #relay4.ensembles[3].eval_points = nengo.dists.Uniform(0.1,1.)
+    #relay4.ensembles[4].eval_points = nengo.dists.Uniform(0.1,1.)
+    #relay4.ensembles[5].eval_points = nengo.dists.Uniform(0.1,1.)
     
-    
-    
+    nengo.Connection(choiceMem.output,relay4.input)
+    nengo.Connection(relay4.output,reward)
