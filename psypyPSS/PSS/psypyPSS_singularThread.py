@@ -21,7 +21,8 @@ PSSdir = 'C:\\Users\\ausma_000\\Documents\\gp\\RLBG\\psypyPSS\\PSS'
 dataDir = 'C:\\Users\\ausma_000\\Desktop\\PSSdata\\singular'
 #dataDir = 'C:\\Users\\Experimenter\\Desktop\\psypyPSS\\data\\singular'
 
-hiragana = 'C:\\Users\\ausma_000\\Desktop\\PSSdata\\fonts\\HIRAGANA.TTF'
+#hiragana = 'C:\\Users\\ausma_000\\Desktop\\PSSdata\\fonts\\HIRAGANA.TTF'
+hiragana = 'C:\\Users\\ausma_000\\Desktop\\PSSdata\\fonts\\CINEMATIME.TTF'
 #hiragana = 'C:\\Users\\Experimenter\\Desktop\\psypyPSS\\PSS\\HIRAGANA.TTF'
 
 os.chdir(PSSdir)
@@ -43,10 +44,12 @@ win = visual.Window([400,400],winType='pyglet',fullscr = False, monitor = 0)
 vert = visual.Line(win,start = (0,-0.1),end = (0,0.1),lineWidth=2)
 horz = visual.Line(win,start = (-0.1,0),end = (0.1,0),lineWidth=2)
 
-stimulus = visual.TextStim(win, text = '')
+stimulus = visual.TextStim(win, text = '', height = 0.3)
 stimulus.fontFiles = [hiragana]
-stimulus.font = 'HIRAGANA'
+#stimulus.font = 'HIRAGANA'
+stimulus.font = 'CINEMATIME'
 prompt = visual.TextStim(win, text = '?')
+prompt.height = 0.3
 #prompt1 = visual.TextStim(win, text = 'Take it!', pos = (-.5, 0))
 #prompt2 = visual.TextStim(win, text = 'Leave it!', pos = (.5, 0))
 rew = visual.TextStim(win, text = '')
@@ -133,7 +136,7 @@ for t in trials:
     win.flip()
     dataStream.event = 5
     
-    core.wait(0.1)
+    core.wait(1.0)
 
 print(keys)
 print(stim)

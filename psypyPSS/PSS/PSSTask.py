@@ -5,12 +5,12 @@ from collections import deque
 
 class PSS_Object():
     #generic object for PSS task components
-    ACTIONS = ('a','c','e','f','d','b')
+    ACTIONS = ('j','p','s',';','k','n')
     NEG_ACTIONS = tuple('-'+x for x in ACTIONS)
-    REW_TABLE = {'a': 0.8, 'c': 0.7, 'e': 0.6,
-                 'f': 0.4, 'd': 0.3, 'b': 0.2}
-    ACT_IDX = {'a': -3, 'c': -2, 'e': -1,
-               'f': 1, 'd': 2, 'b': 3}
+    REW_TABLE = {'j': 0.8, 'p': 0.7, 's': 0.6,
+                 ';': 0.4, 'k': 0.3, 'n': 0.2}
+    ACT_IDX = {'j': -3, 'p': -2, 's': -1,
+               ';': 1, 'k': 2, 'n': 3}
     
     def is_action(self, action):
         #An action is only valid if it belongs to the list of possible actions
@@ -41,7 +41,7 @@ class PSS_State(PSS_Object):
     #a state in the PSS Object
     #state consists of two possible options to choose from
     
-    def __init__(self, options = ('a','b')):
+    def __init__(self, options = ('j','n')):
         #inits a state, with default options being A, B
         if self.is_options(options):
             self.options = options
@@ -140,18 +140,26 @@ class PSS_Decision(PSS_Object):
     
 class PSS_Task(PSS_Object):
     #object implementing PSS task
-    CRITERION = {"ab" : 0.65, "cd" : 0.60, "ef" : 0.50}
+    CRITERION = {"jn" : 0.65, "pk" : 0.60, "s;" : 0.50}
     
-    #hiragana mapping:
-    #https://fontzone.net/font-details/hiragana
-    #under 'details' tab
+    #hiragana mapping (eng symbol to hiragana character):
+    #http://fontsaddict.com/font/cinematime-hiragana.html
     
-    TRAINING_BLOCK = ((("a", "b"),) * 1 +
-                      (("b", "a"),) * 1 +
-                      (("c", "d"),) * 1 +
-                      (("d", "c"),) * 1 +
-                      (("e", "f"),) * 1 +
-                      (("f", "e"),) * 1)
+    #PSS stimulus 'letter' (i.e. A:80%, B:20%, C:70%, etc) to eng symbol map:
+    # A == j
+    # B == n
+    # C == p
+    # D == k
+    # E == s
+    # F == ;
+    
+    
+    TRAINING_BLOCK = ((("j", "n"),) * 1 +
+                      (("n", "j"),) * 1 +
+                      (("p", "k"),) * 1 +
+                      (("k", "p"),) * 1 +
+                      (("s", ";"),) * 1 +
+                      ((";", "s"),) * 1)
     
     TEST_BLOCK = ((("A", "B"),) * 2 + (("B", "A"),) * 2 +
                   (("A", "C"),) * 2 + (("C", "A"),) * 2 +
@@ -203,11 +211,11 @@ class PSS_Task(PSS_Object):
         else:
             if len(training) > 60:
                 training = training[-60:]
-            ab = self.calculate_accuracy(training, 'a')
-            cd = self.calculate_accuracy(training, 'c')
-            ef = self.calculate_accuracy(training, 'e')
+            ab = self.calculate_accuracy(training, 'j')
+            cd = self.calculate_accuracy(training, 'p')
+            ef = self.calculate_accuracy(training, 's')
             
-            if ab >= self.CRITERION['ab'] and cd >= self.CRITERION['cd'] and ef >= self.CRITERION['ef']:
+            if ab >= self.CRITERION['jn'] and cd >= self.CRITERION['pk'] and ef >= self.CRITERION['s;']:
                 return True
             else:
                 return False
@@ -263,8 +271,8 @@ class PSS_Task(PSS_Object):
         #returns choose/avoid accuracies
         test = self.history["Test"]
         if len(test) >= 60:
-            return (self.calculate_accuracy(test, option = 'a', exclude = 'b'),
-                    self.calculate_accuracy(test, option = 'b', exclude = 'a'))
+            return (self.calculate_accuracy(test, option = 'j', exclude = 'n'),
+                    self.calculate_accuracy(test, option = 'n', exclude = 'j'))
 
 class PSS_Agent(PSS_Object):
     """An abstract agent. Can't do anything by itself, and needs to be setup properly"""
